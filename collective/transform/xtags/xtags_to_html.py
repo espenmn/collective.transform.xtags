@@ -7,11 +7,10 @@ from Products.PortalTransforms.interfaces import ITransform
 from Products.PortalTransforms.utils import log
 
 
-
-class xtags_to_html():
+@implementer(ITransform)
+class xtags_to_html(object):
     """Transform which converts from XTAGS to HTML"""
 
-    implements(ITransform)
 
     __name__ = "xtags_to_html"
     output   = "text/html"
