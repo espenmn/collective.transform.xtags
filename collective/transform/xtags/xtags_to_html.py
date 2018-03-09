@@ -2,12 +2,9 @@
 from zope.interface import implements
 from xml.etree.ElementTree import XML, tostring, Element
 from htmllaundry import sanitize
-try:
-    from Products.PortalTransforms.interfaces import ITransform
-    HAS_PLONE3 = False
-except ImportError:
-    from Products.PortalTransforms.z3.interfaces import ITransform
-    HAS_PLONE3 = True
+
+from Products.PortalTransforms.interfaces import ITransform
+from Products.PortalTransforms.utils import log
 
 
 
