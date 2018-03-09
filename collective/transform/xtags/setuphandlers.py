@@ -1,20 +1,15 @@
-# -*- coding: utf-8 -*-
-import logging
 from Products.CMFCore.utils import getToolByName
 
-mimetype = 'text/text'
+mimetype = 'text/x-tags'
 transform = 'xtags_to_html'
 
 def registerMimetype(portal):
     """Add text/xtags to the mimetype registry"""
     mime_reg = getToolByName(portal, 'mimetypes_registry')
-    if not mime_reg.lookup(mimetype):
-        mime_reg.manage_addMimeType(
-            id = "xtags",
-            mimetypes = [mimetype],
-            extensions = None,
-            icon_path = "text.png"
-        )
+    if not mime_reg.lookup("text/x-tags"):
+        mime_reg.manage_addMimeType('text/x-tags',
+                               ['text/x-tags'], ['Quark Xpress Tags'], 'text.png')
+
 
 def uninstallMimetype(portal):
     """Delete the xtags mimetype"""
@@ -27,8 +22,8 @@ def installTransform(portal):
     transforms = getToolByName(portal, 'portal_transforms')
     if transform not in transforms.objectIds():
         transforms.manage_addTransform(
-            transform,
-            'collective.transform.xtags.%s' % transform
+            'xtags_to_html',
+            'collective.transform.xtags.xtags_to_html'
         )
 
 def uninstallTransform(portal):
@@ -43,7 +38,7 @@ def importVarious(context):
         return
     portal = context.getSite()
     #registerMimetype(portal)
-    #installTransform(portal)
+    installTransform(portal)
 
 def importVariousUninstall(context):
     """Various uninstall step code"""
