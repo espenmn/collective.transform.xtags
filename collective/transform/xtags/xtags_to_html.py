@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
 from zope.interface import implements
-
-from elementtree.ElementTree import XML, tostring, Element
-
+from xml.etree.ElementTree import XML, tostring, Element
 from htmllaundry import sanitize
 
 
-class XTAGS_to_HTML():
+class xtags_to_html():
     """Transform which converts from XTAGS to HTML"""
 
     implements(ITransform)
 
     __name__ = "xtags_to_html"
-    inputs   = ("text/xtags",)
+    inputs   = ("text/x-tags")
     output   = "text/html"
 
     def __init__(self,name=None):
@@ -25,7 +23,7 @@ class XTAGS_to_HTML():
     def convert(self, data, cache, **kwargs):
         bodydom = Element('div')
         xtagsdom = XML(data)
-        ns = xtagsdom.tag.strip('xtags')
+        ns = xtagsdom.tag.strip('x-tags')
         placemarks = xtagsdom.findall('.//%sPlacemark' % ns)
         for placemark in placemarks:
             titles = placemark.findall(ns + 'name')
@@ -46,4 +44,4 @@ class XTAGS_to_HTML():
         return cache
 
 def register():
-    return xtags_to_HTML()
+    return XTAGS_to_HTML()

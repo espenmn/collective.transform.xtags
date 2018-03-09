@@ -9,19 +9,11 @@
 
     <genericsetup:registerProfile
         name="default"
-        title="Quark Xpress Tags Transform Install"
+        title="Quark Xpress Tags Transform"
         directory="profiles/default"
-        description="Install profile for collective.transform.xtags"
+        description="Install transform from xtags to html"
+        post_handler="collective.transform.xtags.setuphandlers.importVarious"
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
-
-
-    <genericsetup:importStep
-        name="collective.transform.xtags-various"
-        title="xtags transform various"
-        description="Various import steps for collective.transform.xtags"
-        handler="collective.transform.xtags.setuphandlers.importVarious">
-    </genericsetup:importStep>
-
 
 </configure>
