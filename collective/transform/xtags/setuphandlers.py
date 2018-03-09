@@ -2,14 +2,11 @@
 import logging
 from Products.CMFCore.utils import getToolByName
 
-
-from Products.CMFCore.utils import getToolByName
-
-mimetype = 'text/xtags'
+mimetype = 'text/text'
 transform = 'xtags_to_html'
 
 def registerMimetype(portal):
-    """Add text/x-xtags to the mimetype registry"""
+    """Add text/xtags to the mimetype registry"""
     mime_reg = getToolByName(portal, 'mimetypes_registry')
     if not mime_reg.lookup(mimetype):
         mime_reg.manage_addMimeType(
@@ -45,8 +42,8 @@ def importVarious(context):
     if context.readDataFile(marker_file) is None:
         return
     portal = context.getSite()
-    registerMimetype(portal)
-    installTransform(portal)
+    #registerMimetype(portal)
+    #installTransform(portal)
 
 def importVariousUninstall(context):
     """Various uninstall step code"""
@@ -54,5 +51,5 @@ def importVariousUninstall(context):
     if context.readDataFile(marker_file) is None:
         return
     portal = context.getSite()
-    uninstallMimetype(portal)
+    #uninstallMimetype(portal)
     uninstallTransform(portal)

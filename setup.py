@@ -6,19 +6,19 @@ version = '0.1'
 setup(name='collective.transform.xtags',
       version=version,
       description="Transform xtags to HTML",
-      long_description=open("README.rst").read() + "\n" +
-                       open(os.path.join("docs", "HISTORY.txt")).read(),
+      long_description="Quark Xpress Tags transform",
       # Get more strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
         "Framework :: Plone",
         "Framework :: Plone :: 5.0",
         "Programming Language :: Python",
+        "Topic :: Software Development :: Libraries :: Python Modules",
         "Topic :: Text Processing"
         ],
       keywords='',
       author='Espen Moe-Nilssen',
       author_email='espen@medialog.no',
-      url='https://github.com/collective/collective.transform.xtags',
+      url='https://github.com/espenmn/collective.transform.xtags',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['collective', 'collective.transform'],
@@ -27,12 +27,13 @@ setup(name='collective.transform.xtags',
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
-          'htmllaundry',
-      ],
+          ],
       entry_points="""
       # -*- Entry points: -*-
-
       [z3c.autoinclude.plugin]
       target = plone
       """,
+      # The next two lines may be deleted after you no longer need
+      # addcontent support from paster and before you distribute
+      # your package.
       )
