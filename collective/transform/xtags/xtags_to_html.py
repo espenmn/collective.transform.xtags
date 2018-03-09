@@ -2,6 +2,13 @@
 from zope.interface import implements
 from xml.etree.ElementTree import XML, tostring, Element
 from htmllaundry import sanitize
+try:
+    from Products.PortalTransforms.interfaces import ITransform
+    HAS_PLONE3 = False
+except ImportError:
+    from Products.PortalTransforms.z3.interfaces import ITransform
+    HAS_PLONE3 = True
+
 
 
 class xtags_to_html():
@@ -10,7 +17,6 @@ class xtags_to_html():
     implements(ITransform)
 
     __name__ = "xtags_to_html"
-    inputs   = ("text/x-tags")
     output   = "text/html"
 
     def __init__(self,name=None):

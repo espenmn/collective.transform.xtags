@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <import-steps>
- <import-step id="portal-transforms-various" handler="collective.transform.xtags.setuphandlers.importVarious"
-              title="PortalTransforms setup">PortalTransforms installation step.
+ <import-step id="collective-transforms-xtags-various" handler="collective.transform.xtags.setuphandlers.importVarious"
+              title="Xtags stuff">PortalTransforms installation step.
  </import-step>
 </import-steps>
