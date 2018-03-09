@@ -5,25 +5,14 @@ from elementtree.ElementTree import XML, tostring, Element
 
 from htmllaundry import sanitize
 
-from Products.PortalTransforms.interfaces import itransform
-try:
-    from Products.PortalTransforms.interfaces import ITransform
-    HAS_PLONE3 = False
-except ImportError:
-    from Products.PortalTransforms.z3.interfaces import ITransform
-    HAS_PLONE3 = True
 
+class XTAGS_to_HTML():
+    """Transform which converts from XTAGS to HTML"""
 
-class KML_to_HTML():
-    """Transform which converts from KML to HTML"""
+    implements(ITransform)
 
-    if HAS_PLONE3:
-        __implements__ = itransform
-    else:
-        implements(ITransform)
-
-    __name__ = "kml_to_html"
-    inputs   = ("application/vnd.google-earth.kml+xml",)
+    __name__ = "xtags_to_html"
+    inputs   = ("text/xtags",)
     output   = "text/html"
 
     def __init__(self,name=None):
@@ -35,9 +24,9 @@ class KML_to_HTML():
 
     def convert(self, data, cache, **kwargs):
         bodydom = Element('div')
-        kmldom = XML(data)
-        ns = kmldom.tag.strip('kml')
-        placemarks = kmldom.findall('.//%sPlacemark' % ns)
+        xtagsdom = XML(data)
+        ns = xtagsdom.tag.strip('xtags')
+        placemarks = xtagsdom.findall('.//%sPlacemark' % ns)
         for placemark in placemarks:
             titles = placemark.findall(ns + 'name')
             for title in titles:
@@ -57,4 +46,4 @@ class KML_to_HTML():
         return cache
 
 def register():
-    return KML_to_HTML()
+    return xtags_to_HTML()
