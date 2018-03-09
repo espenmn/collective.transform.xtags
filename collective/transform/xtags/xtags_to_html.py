@@ -44,4 +44,4 @@ class xtags_to_html():
         return cache
 
 def register():
-    return XTAGS_to_HTML()
+    return xtags_to_html()

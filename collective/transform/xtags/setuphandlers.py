@@ -1,7 +1,5 @@
 from Products.CMFCore.utils import getToolByName
 
-from plone import api
-
 mimetype = 'text/x-tags'
 transform = 'xtags_to_html'
 

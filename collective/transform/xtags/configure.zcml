@@ -12,7 +12,6 @@
         title="Quark Xpress Tags Transform"
         directory="profiles/default"
         description="Install transform from xtags to html"
-        post_handler="collective.transform.xtags.setuphandlers.importVarious"
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 
