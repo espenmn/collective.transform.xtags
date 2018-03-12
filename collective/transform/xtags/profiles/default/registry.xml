@@ -1,0 +1,17 @@
+<registry>
+  <record name="plone.allowed_types" interface="Products.CMFPlone.interfaces.controlpanel.IMarkupSchema" field="allowed_types">
+    <field type="plone.registry.field.Tuple">
+      <default>
+        <element>text/plain</element>
+      </default>
+      <missing_value/>
+      <value_type type="plone.registry.field.Choice">
+        <vocabulary>plone.app.vocabularies.AllowableContentTypes</vocabulary>
+      </value_type>
+    </field>
+    <value>
+      <element>text/x-xtags</element>
+    </value>
+  </record>
+
+</registry>
