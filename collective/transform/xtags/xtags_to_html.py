@@ -1,6 +1,12 @@
 # -*- coding: utf-8 -*-
 from Products.PortalTransforms.interfaces import itransform
 #import xtags
+from lxml.etree import tostring
+
+from pypeg2 import *
+from pypeg2 import parse as pparse
+from pypeg2.xmlast import create_tree
+from lxml.etree import strip_tags, tostring, SubElement
 
 from zope.interface import implements
 try:
@@ -21,6 +27,8 @@ class XtagsToHtml:
 
     __name__ = "xtags_to_html"
     output = "text/html"
+
+    import pdb; pdb.set_trace()
 
     def __init__(self, name=None, inputs=('text/plain',)):
         self.config = {
@@ -44,6 +52,7 @@ class XtagsToHtml:
         raise AttributeError(attr)
 
     def convert(self, orig, data, **kwargs):
+        import pdb; pdb.set_trace()
         tagged_text = replace_unicode(orig)
         lines = text.split("\n")
         config = xtags.ConfigMaster()._get_defaults()
@@ -63,8 +72,8 @@ class XtagsToHtml:
         except:
             text = xtags.getUnknownErrorMessage()
 
-        data.setData(text)
-        return data
+        #data.setData(text)
+        #return data
 
 
 

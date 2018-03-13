@@ -26,6 +26,7 @@ setup(name='collective.transform.xtags',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'pypeg2'
           # -*- Extra requirements: -*-
           ],
       entry_points="""
