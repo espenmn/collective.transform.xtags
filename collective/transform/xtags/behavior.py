@@ -17,7 +17,7 @@ from collective.transform.xtags.widget import XtagsFieldWidget
 _ = MessageFactory('collective.transform.xtags')
 
 
-class IMarkdownBehavior(form.Schema):
+class IXtagsBehavior(form.Schema):
     """ A Quark Xpress Xtags text field"""
 
     dexteritytextindexer.searchable('bodytext')

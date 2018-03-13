@@ -22,7 +22,7 @@ class XtagsWidget(text.TextWidget):
         """Return the preview as a stringified HTML document."""
         portal_transforms = api.portal.get_tool(name='portal_transforms')
         value = self.value.encode('utf-8')
-        data = portal_transforms.convertTo('text/html', value, mimetype='text/x-web-markdown')
+        data = portal_transforms.convertTo('text/html', value, mimetype='text/x-xtags')
         html = data.getData()
         return html
 
