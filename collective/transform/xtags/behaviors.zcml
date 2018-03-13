@@ -1,0 +1,15 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:five="http://namespaces.zope.org/five"
+           xmlns:plone="http://namespaces.plone.org/plone"
+           xmlns:i18n="http://namespaces.zope.org/i18n">
+
+   <include package="plone.behavior" file="meta.zcml" />
+
+   <plone:behavior
+        title="Quark Xpress XTAGS behavior"
+        description="Provides a Quark XTAGS text field"
+        provides=".behavior.IXtagsBehavior"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        />
+
+</configure>

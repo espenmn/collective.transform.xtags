@@ -1,0 +1,31 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+	i18n_domain="collective.transform.xtags">
+
+
+  <class class=".widget.XtagsWidget">
+    <require
+        permission="zope.Public"
+        interface="collective.transform.xtags.widgets.widget.IXtagsWidget"
+        />
+  </class>
+
+  <!--  Display widget  -->
+  <z3c:widgetTemplate
+      mode="display"
+      widget="collective.transform.xtags.widgets.widget.IXtagsWidget"
+      layer="z3c.form.interfaces.IFormLayer"
+      template="markdown_display.pt" />
+
+  <!--  Input (edit) widget  -->
+  <z3c:widgetTemplate
+      mode="input"
+      widget="collective.transform.xtags.widgets.widget.IXtagsWidget"
+      layer="z3c.form.interfaces.IFormLayer"
+      template="xtags_input.pt" />
+
+
+
+
+</configure>

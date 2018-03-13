@@ -8,6 +8,14 @@
     i18n_domain="collective.transform.xtags">
 
    <include package=".browser" />
+   <include package=".widgets" />
+   <include package=".browser" />
+   <include file="behaviors.zcml" />
+
+  <!-- Register a resource directory from which we can deploy static resource files. -->
+  <browser:resourceDirectory
+    name="collective.transform.xtags"
+    directory="resources" />
 
    <genericsetup:registerProfile
         name="default"
@@ -25,17 +33,17 @@
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 
-    <genericsetup:importStep
+    <!--genericsetup:importStep
         name="collective.transform.xtags-various"
         title="Xtags transform various"
         description="Various import steps for collective.transform.xtagstags"
         handler="collective.transform.xtags.setuphandlers.importVarious">
-    </genericsetup:importStep>
+    </genericsetup:importStep-->
 
-    <genericsetup:importStep
+    <!--genericsetup:importStep
         name="collective.transform.xtagstags-various-uninstall"
         title="Xtags transform various uninstall"
         description="Various import steps for collective.transform.xtags uninstall"
         handler="collective.transform.xtags.setuphandlers.importVariousUninstall">
-    </genericsetup:importStep>}
+    </genericsetup:importStep-->
 </configure>

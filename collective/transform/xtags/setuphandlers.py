@@ -39,15 +39,18 @@ def importVarious(context):
     marker_file = 'collective-transform-xtags.txt'
     if context.readDataFile(marker_file) is None:
         return
-    portal = context.getSite()
-    registerMimetype(portal)
-    installTransform(portal)
+    #portal = context.getSite()
+    #registerMimetype(portal)
+    #installTransform(portal)
+    return
+
 
 def importVariousUninstall(context):
     """Various uninstall step code"""
     marker_file = 'collective-transform-xtags-uninstall.txt'
     if context.readDataFile(marker_file) is None:
         return
-    portal = context.getSite()
-    uninstallMimetype(portal)
-    uninstallTransform(portal)
+    #portal = context.getSite()
+    #uninstallMimetype(portal)
+    #uninstallTransform(portal)
+    return
