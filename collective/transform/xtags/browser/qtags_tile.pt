@@ -1,5 +1,0 @@
-<html>
-   <body>
-   <p tal:condition="view/data/text">${view/data/text}</p>
- </body>
-</html>

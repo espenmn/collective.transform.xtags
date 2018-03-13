@@ -14,7 +14,7 @@ class RenderFromXtags(BrowserView):
 
     def render_xtags(self):
         """Return quark xtags as a stringified HTML document."""
-        xtags = self.context.xtags or None
+        xtags = self.context.bodytext.encode('utf-8')
         element_tree = to_xml(xtags)
         serialised_xml = tostring(element_tree, encoding='utf-8')
         return serialised_xml

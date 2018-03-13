@@ -1,8 +1,6 @@
 
 <tal:widget tal:define="id string:${view/id}">
 <div class="previewbuttons">
-  <p class="button-field context fa fa-eye-slash disabled" id="hidepreview"></p>
-  <p class="button-field context fa fa-arrows disabled" id="previewv"></p>
   <p class="button-field context fa fa-eye" id="mdpreview"> Update Preview</p>
 </div>
 <div class="flexbox">
@@ -19,8 +17,8 @@
            tal:content="view/value"/>
 <div id="result" class="fullwidth"> </div>
 </div>
-<button id="mdpreview">Preview</button>
 
+<div id="result">${view/render_xtags}</div>
 <script>
 $( "#mdpreview" ).click(function() {
   var md = $('#${id}').selection();

@@ -10,6 +10,10 @@ from z3c.form.browser import text
 from plone import api
 #from collective.transform.xtags.interfaces import IXtagsSettings
 
+from collective.transform.xtags.browser.quark_tagged_text import to_xml
+from lxml.etree import tostring
+
+
 
 class IXtagsWidget(interfaces.IWidget):
     """Xtags widget."""
@@ -20,15 +24,11 @@ class XtagsWidget(text.TextWidget):
 
     def render_xtags(self):
         """Return the preview as a stringified HTML document."""
-        portal_transforms = api.portal.get_tool(name='portal_transforms')
+        #portal_transforms = api.portal.get_tool(name='portal_transforms')
         value = self.value.encode('utf-8')
-        data = portal_transforms.convertTo('text/html', value, mimetype='text/x-xtags')
-        html = data.getData()
-        return html
-
-
-    #def live_preview(self):
-    #    return api.portal.get_registry_record(name="live_preview", interface=IXtagsSettings)
+        element_tree = to_xml(value)
+        serialised_xml = tostring(element_tree, encoding='utf-8')
+        return serialised_xml
 
 
     zope.interface.implementsOnly(IXtagsWidget)
