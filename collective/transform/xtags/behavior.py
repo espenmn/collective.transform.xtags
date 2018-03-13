@@ -12,7 +12,7 @@ from plone.supermodel.model import Schema
 
 from zope.i18nmessageid import MessageFactory
 
-from collective.transform.xtags.widget import XtagsFieldWidget
+from collective.transform.xtags.widgets.widget import XtagsFieldWidget
 
 _ = MessageFactory('collective.transform.xtags')
 
