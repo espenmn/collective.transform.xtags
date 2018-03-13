@@ -147,6 +147,10 @@ QUARK_CHAR_ATTRIBUTES = dict(QUARK_CHAR_ATTRIBUTES_TYPE_STYLE, **QUARK_CHAR_ATTR
 #In [4]: "".join(list(q.QUARK_SPECIAL_CHARACTERS))
 #Out[4]: '@<\\nd-tsepf_ahm#$^*{}jo'
 
+def remove_returns(tagged_text):
+	"""Replace return with nothing."""
+	return tagged_text.replace("\r", "")
+
 def replace_newlines(tagged_text):
 	"""Replace return with newline."""
 	return tagged_text.replace("\r", "\n")
@@ -401,7 +405,8 @@ def to_xml(tagged_text, extra_tags_to_keep={}):
     import pdb; pdb.set_trace()
     #tagged_text = replace_unicode(tagged_text)
     #tagged_text = replace_newlines(tagged_text)
-    tree = create_tree(pparse(replace_newlines(tagged_text), Article))
+    #tree = create_tree(pparse(tagged_text, Article))
+    tree = create_tree(pparse(remove_returns(tagged_text), Article))
     strip_tags(tree, 'Text') # Text tags are unstyled text and can be stripped
     propagate_class(tree)
     fix_character_attributes(tree, extra_tags_to_keep)
