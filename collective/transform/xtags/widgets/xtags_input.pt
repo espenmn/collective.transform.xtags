@@ -20,12 +20,14 @@
 <div id="result" class="fullwidth" tal:content="structure view/render_xtags" />
 <link rel="stylesheet" href="++resource++collective.transform.xtags/xtags.css" />
 </div>
-
 <script>
 $( "#mdpreview" ).click(function() {
   var md = $('#${id}').val();
   $.post("render_from_xtags", { tagged_text: md}, function( data ) {
     $( "#result" ).html( data );
+    $( "#${id}" ).highlightWithinTextarea({
+        highlight: /b*/gi,
+    });
   });
 });
 $( "#hidepreview" ).click(function() {
@@ -45,5 +47,20 @@ $(document).on('keypress', '#${id}', function(e) {
         $('#mdpreview').click(); // fire a sample click,  you can do anything
     }
 });
+
 </script>
+<script>
+  require([
+      'jquery',
+      '++resource++collective.transform.xtags/mark',
+      '++resource++collective.transform.xtags/highlight-within-textarea'
+      ], function($) {
+      $("#coxntent-core").markRegExp(/[^]*>/);
+      $( "#${id}" ).highlightWithinTextarea({
+          highlight: /b*/gi,
+      });
+  });
+</script>
+
+
 </tal:widget>
