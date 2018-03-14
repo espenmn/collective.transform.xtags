@@ -5,57 +5,52 @@
   <p class="button-field context fa fa-arrows" id="previewv">Columnview</p>
   <p class="button-field context fa fa-eye" id="mdpreview"> Update Preview</p>
 </div>
+<textarea  class="textarea xtags-textarea"
+             type="textarea"
+             tal:attributes="name view/name;
+             value view/value;
+             disabled view/disabled;
+             alt view/alt;
+             accesskey view/accesskey;
+             onselect view/onselect;"
+             tal:content="view/value"
+             id="xtags-holder"/>
+
 <div class="flexbox">
-<textarea  class="xtags-textarea"
-           type="textarea"
-           role="xtags"
-           tal:attributes="id id;
-           name view/name;
-           value view/value;
-           disabled view/disabled;
-           alt view/alt;
-           accesskey view/accesskey;
-           onselect view/onselect;"
-           tal:content="view/value"/>
-<div id="result" class="fullwidth" tal:content="structure view/render_xtags" />
+<div id="xtags_field" class="xtags-textarea" role="textbox" contenteditable="true">${view/value}</div>
+
+<div id="result" class="fullwidth">${view/render_xtags}</div>
 <link rel="stylesheet" href="++resource++collective.transform.xtags/xtags.css" />
 </div>
 <script>
 $( "#mdpreview" ).click(function() {
-  var md = $('#${id}').val();
+   var md = $('#xtags-holder').val();
   $.post("render_from_xtags", { tagged_text: md}, function( data ) {
-    $( "#result" ).html( data );
-    $( "#${id}" ).highlightWithinTextarea({
-        highlight: /b*/gi,
-    });
+    $( "#content" ).html( data );
   });
 });
-$( "#hidepreview" ).click(function() {
-  $('#result').hide();
-  $('#result, .md-textarea, #${id}').removeClass( 'halfwidth' );
-  $('#result, .md-textarea, #${id}').addClass( 'fullwidth' );
-  $('#hidepreview,  #previewv').addClass('disabled');
-});
 $( "#previewv" ).click(function() {
-  $('#result, .md-textarea, #${id}').toggleClass( 'halfwidth' );
-  $('#result, .md-textarea, #${id}').toggleClass( 'fullwidth' );
+  $('#result, .md-textarea, #xtags_field').toggleClass( 'halfwidth' );
+  $('#result, .md-textarea, #xtags_field').toggleClass( 'fullwidth' );
 });
 </script>
 <script>
-$(document).on('keypress', '#${id}', function(e) {
+$(document).on('keypress', '#xtags_field', function(e) {
     if ( e.keyCode == 13 ) {  // detect the enter key
-        $('#mdpreview').click(); // fire a sample click,  you can do anything
+      $("#xtags_field").unmark();
+      var xtg = $('#xtags_field').text() ;
+      $('#xtags-holder').val( xtg )
+      $("#xtags_field").markRegExp(/<[PBIOSUW/RKH+-V]*>/);
+      $('#xxmdpreview').click(); // fire a sample click,  you can do anything
     }
 });
-
 </script>
 <script>
   require([
       'jquery',
       '++resource++collective.transform.xtags/mark',
-      '++resource++collective.transform.xtags/highlight-within-textarea'
       ], function($) {
-      $("#coxntent-core").markRegExp(/[^]*>/);
+      $("#xtags_field").markRegExp(/<[PBIOSUW/RKH+-V]*>/);
   });
 </script>
 
