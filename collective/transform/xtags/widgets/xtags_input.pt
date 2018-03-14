@@ -26,7 +26,7 @@
 $( "#mdpreview" ).click(function() {
    var md = $('#xtags-holder').val();
   $.post("render_from_xtags", { tagged_text: md}, function( data ) {
-    $( "#content" ).html( data );
+    $( "#result" ).html( data );
   });
 });
 $( "#previewv" ).click(function() {
