@@ -56,9 +56,6 @@ $(document).on('keypress', '#${id}', function(e) {
       '++resource++collective.transform.xtags/highlight-within-textarea'
       ], function($) {
       $("#coxntent-core").markRegExp(/[^]*>/);
-      $( "#${id}" ).highlightWithinTextarea({
-          highlight: /b*/gi,
-      });
   });
 </script>
 
