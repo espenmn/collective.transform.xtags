@@ -1,6 +1,8 @@
 
 <tal:widget tal:define="id string:${view/id}">
 <div class="previewbuttons">
+  <!--p class="button-field context fa fa-eye-slash disabled" id="hidepreview">Hide preview</p-->
+  <p class="button-field context fa fa-arrows" id="previewv">Columnview</p>
   <p class="button-field context fa fa-eye" id="mdpreview"> Update Preview</p>
 </div>
 <div class="flexbox">
@@ -15,32 +17,33 @@
            accesskey view/accesskey;
            onselect view/onselect;"
            tal:content="view/value"/>
-<div id="result" class="fullwidth"> </div>
+<div id="result" class="fullwidth" tal:content="structure view/render_xtags" />
+<link rel="stylesheet" href="++resource++collective.transform.xtags/xtags.css" />
 </div>
 
-<div id="result">${view/render_xtags}</div>
 <script>
 $( "#mdpreview" ).click(function() {
-  var md = $('#${id}').selection();
-  len = md.length;
-  if (len < 3)  {
-    var md = $('#${id}').val();
-    var caretPos = $('#${id}')[0].selectionStart;
-    var md = md.slice(0, caretPos) + '<a id="you_are_here" name="you_are_here">></a>' + md.slice(caretPos);
-  }
+  var md = $('#${id}').val();
   $.post("render_from_xtags", { tagged_text: md}, function( data ) {
     $( "#result" ).html( data );
   });
 });
+$( "#hidepreview" ).click(function() {
+  $('#result').hide();
+  $('#result, .md-textarea, #${id}').removeClass( 'halfwidth' );
+  $('#result, .md-textarea, #${id}').addClass( 'fullwidth' );
+  $('#hidepreview,  #previewv').addClass('disabled');
+});
+$( "#previewv" ).click(function() {
+  $('#result, .md-textarea, #${id}').toggleClass( 'halfwidth' );
+  $('#result, .md-textarea, #${id}').toggleClass( 'fullwidth' );
+});
 </script>
 <script>
 $(document).on('keypress', '#${id}', function(e) {
-        if ( e.keyCode == 13 ) {  // detect the enter key
-            $('#mdpreview').click(); // fire a sample click,  you can do anything
-            $("#you_are_here").get(0).scrollIntoView();
-            var y = $('#result').scrollTop();
-            $('#result').scrollTop(y-300);
-    	}
+    if ( e.keyCode == 13 ) {  // detect the enter key
+        $('#mdpreview').click(); // fire a sample click,  you can do anything
+    }
 });
 </script>
 </tal:widget>

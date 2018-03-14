@@ -10,7 +10,7 @@ from z3c.form.browser import text
 from plone import api
 #from collective.transform.xtags.interfaces import IXtagsSettings
 
-from collective.transform.xtags.browser.quark_tagged_text import to_xml
+from collective.transform.xtags.quark_tagged_text import to_xml
 from lxml.etree import tostring
 
 

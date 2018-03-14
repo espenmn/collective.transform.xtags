@@ -408,5 +408,5 @@ def to_xml(tagged_text, extra_tags_to_keep={}):
     tree =  create_tree(pparse(replace_unicode(tagged_text), Article))
     strip_tags(tree, 'Text') # Text tags are unstyled text and can be stripped
     propagate_class(tree)
-    ###fix_character_attributes(tree, extra_tags_to_keep)
+    fix_character_attributes(tree, extra_tags_to_keep)
     return tree
