@@ -38,7 +38,7 @@ $(document).on('keypress', '#xtags_field', function(e) {
     if ( e.keyCode == 13 ) {  // detect the enter key
       $("#xtags_field").unmark();
       var xtg = $('#xtags_field').text() ;
-      $('#xtags-holder').val( xtg )
+      $('#xtags-holder').html( xtg )
       $("#xtags_field").markRegExp(/<[PBIOSUW/RKH+-V]*>/);
       $('#xxmdpreview').click(); // fire a sample click,  you can do anything
     }

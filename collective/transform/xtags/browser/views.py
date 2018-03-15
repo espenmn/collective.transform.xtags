@@ -14,7 +14,7 @@ class RenderFromXtags(BrowserView):
 
     def render_xtags(self,):
         """Return quark xtags as a stringified HTML document."""
-        tagged_text = self.request.tagged_text
+        #tagged_text = self.request.tagged_text
         #or self.context.qrktext
 
         import pdb; pdb.set_trace()
