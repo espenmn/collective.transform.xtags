@@ -12,14 +12,14 @@ class RenderFromXtags(BrowserView):
     def __call__(self, *args, **kw):
         return self.render_xtags()
 
-    def render_xtags(self, tagged_text=""):
+    def render_xtags(self,):
         """Return quark xtags as a stringified HTML document."""
-        value = self.request.tagged_text.encode('utf-8')
-        #if not tagged_text:
-        #    value = self.context.bodytext.encode('utf-8')
+        tagged_text = self.request.tagged_text
+        #or self.context.qrktext
 
+        import pdb; pdb.set_trace()
         try:
-            element_tree = to_xml(value)
+            element_tree = to_xml(self.request.tagged_text)
             serialised_xml = tostring(element_tree, encoding='utf-8')
             return serialised_xml
         except:

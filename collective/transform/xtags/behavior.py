@@ -20,15 +20,15 @@ _ = MessageFactory('collective.transform.xtags')
 class IXtagsBehavior(form.Schema):
     """ A Quark Xpress Xtags text field"""
 
-    dexteritytextindexer.searchable('bodytext')
+    dexteritytextindexer.searchable('qrktext')
 
-    bodytext = schema.Text(
-    	title=u"Body text",
+    qrktext = schema.Text(
+    	title=u"Quark Xpress Tags text",
     	description=u"Note: You can select text to preview, or preview all",
     )
 
     form.widget(
-          bodytext=XtagsFieldWidget,
+         qrktext=XtagsFieldWidget,
     )
 
 

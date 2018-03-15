@@ -5,7 +5,7 @@
   <p class="button-field context fa fa-arrows" id="previewv">Columnview</p>
   <p class="button-field context fa fa-eye" id="mdpreview"> Update Preview</p>
 </div>
-<textarea  class="textarea xtags-textarea"
+<textarea  class="textarea"
              type="textarea"
              tal:attributes="name view/name;
              value view/value;
@@ -17,11 +17,10 @@
              id="xtags-holder"/>
 
 <div class="flexbox">
-<div id="xtags_field" class="xtags-textarea" role="textbox" contenteditable="true">${view/value}</div>
-
-<div id="result" class="fullwidth">${view/render_xtags}</div>
-<link rel="stylesheet" href="++resource++collective.transform.xtags/xtags.css" />
+  <div id="xtags_field" class="xtags-textarea" role="textbox" contenteditable="true">${view/value}</div>
+  <div id="result" class="fullwidth"></div>
 </div>
+<link rel="stylesheet" href="++resource++collective.transform.xtags/xtags.css" />
 <script>
 $( "#mdpreview" ).click(function() {
    var md = $('#xtags-holder').val();
@@ -53,6 +52,4 @@ $(document).on('keypress', '#xtags_field', function(e) {
       $("#xtags_field").markRegExp(/<[PBIOSUW/RKH+-V]*>/);
   });
 </script>
-
-
 </tal:widget>

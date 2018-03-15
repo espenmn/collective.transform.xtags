@@ -72,5 +72,5 @@ a#you_are_here {
 
 mark {
   opacity: 0.1;
-  Xdisplay: none;
+  display: none !important;
 }

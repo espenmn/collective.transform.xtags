@@ -25,11 +25,15 @@ class XtagsWidget(text.TextWidget):
     def render_xtags(self):
         """Return the preview as a stringified HTML document."""
         #portal_transforms = api.portal.get_tool(name='portal_transforms')
-        value = self.value.encode('utf-8')
-        element_tree = to_xml(value)
-        serialised_xml = tostring(element_tree, encoding='utf-8')
-        return serialised_xml
-
+        tagged_text = self.value
+        if tagged_text:
+            try:
+                element_tree = to_xml(tagged_text)
+                serialised_xml = tostring(element_tree, encoding='utf-8')
+                return serialised_xml
+            except:
+                return "Rendering error"
+        return ""
 
     zope.interface.implementsOnly(IXtagsWidget)
 
