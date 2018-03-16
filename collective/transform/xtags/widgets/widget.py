@@ -25,7 +25,7 @@ class XtagsWidget(text.TextWidget):
     def get_xtags(self):
         xtags = self.value
         import pdb; pdb.set_trace()
-        return xtags.replace('\n', '\\n')
+        #return xtags.replace('\n', '\\n')
 
     #This is not used yet
     def render_xtags(self):

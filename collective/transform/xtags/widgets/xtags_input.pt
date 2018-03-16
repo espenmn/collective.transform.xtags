@@ -24,9 +24,14 @@
 <link rel="stylesheet" href="++resource++collective.transform.xtags/xtags.css" />
 <script>
 $( "#mdpreview" ).click(function() {
-   var md = $('#xtags-holder').val();
+$("#xtags_field").unmark();
+      var xtg = $('#xtags_field').text() ;
+      $('#xtags-holder').html( xtg )
+      $("#xtags_field").markRegExp(/<[PBIOSUW/RKH+-V]*>/);
+      var md = $('#xtags-holder').val();
   $.post("render_from_xtags", { tagged_text: md}, function( data ) {
     $( "#result" ).html( data );
+    $('#form-buttons-save').show();
   });
 });
 $( "#previewv" ).click(function() {
@@ -36,12 +41,9 @@ $( "#previewv" ).click(function() {
 </script>
 <script>
 $(document).on('keypress', '#xtags_field', function(e) {
+    $('#form-buttons-save').one().hide();
     if ( e.keyCode == 13 ) {  // detect the enter key
-      $("#xtags_field").unmark();
-      var xtg = $('#xtags_field').text() ;
-      $('#xtags-holder').html( xtg )
-      $("#xtags_field").markRegExp(/<[PBIOSUW/RKH+-V]*>/);
-      $('#xxmdpreview').click(); // fire a sample click,  you can do anything
+      $('#mdpreview').click(); // fire a sample click,  you can do anything
     }
 });
 </script>

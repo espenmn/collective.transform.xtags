@@ -17,7 +17,6 @@ class RenderFromXtags(BrowserView):
         #tagged_text = self.request.tagged_text
         #or self.context.qrktext
 
-        import pdb; pdb.set_trace()
         try:
             element_tree = to_xml(self.request.tagged_text)
             serialised_xml = tostring(element_tree, encoding='utf-8')

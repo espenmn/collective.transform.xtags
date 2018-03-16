@@ -26,6 +26,10 @@ setup(name='collective.transform.xtags',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'collective.dexteritytextindexer',
+          'plone.autoform',
+          'plone.directives.form',
+           'plone.supermodel',
           'pypeg2'
           # -*- Extra requirements: -*-
           ],
