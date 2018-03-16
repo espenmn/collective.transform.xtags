@@ -20,9 +20,10 @@
 	clear: both;
 }
 
-.bodytext, .xtags-textarea {
+.xtags-textarea {
 	float: left;
 	min-height: 300px;
+	display:  inline-block;
 }
 
 .previewbuttons {
@@ -72,5 +73,5 @@ a#you_are_here {
 
 mark {
   opacity: 0.1;
-  display: none !important;
+  xdisplay: none !important;
 }

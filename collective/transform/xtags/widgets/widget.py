@@ -22,6 +22,12 @@ class IXtagsWidget(interfaces.IWidget):
 class XtagsWidget(text.TextWidget):
     """Xtags Widget"""
 
+    def get_xtags(self):
+        xtags = self.value
+        import pdb; pdb.set_trace()
+        return xtags.replace('\n', '\\n')
+
+    #This is not used yet
     def render_xtags(self):
         """Return the preview as a stringified HTML document."""
         #portal_transforms = api.portal.get_tool(name='portal_transforms')

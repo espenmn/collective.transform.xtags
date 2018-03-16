@@ -17,7 +17,8 @@
              id="xtags-holder"/>
 
 <div class="flexbox">
-  <div id="xtags_field" class="xtags-textarea" role="textbox" contenteditable="true">${view/value}</div>
+  <pre id="xtags_field" class="xtags-textarea" role="textbox" contenteditable="true" tal:content="view/value"></pre>
+  
   <div id="result" class="fullwidth"></div>
 </div>
 <link rel="stylesheet" href="++resource++collective.transform.xtags/xtags.css" />
