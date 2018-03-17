@@ -18,9 +18,10 @@
 
 .xtags-textarea {
 	white-space: pre-wrap;
+	xwhite-space: pre-line;
 	float: left;
 	min-height: 300px;
-	display:  inline-block;
+	xdisplay:  inline-block;
 	width: 100%;
 }
 

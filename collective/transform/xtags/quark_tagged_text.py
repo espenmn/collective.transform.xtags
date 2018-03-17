@@ -38,7 +38,7 @@ from pypeg2 import *
 from pypeg2 import parse as pparse
 from pypeg2.xmlast import create_tree
 from lxml.etree import strip_tags, tostring, SubElement
-#import logging as log
+import logging as log
 
 
 
@@ -115,10 +115,13 @@ QUARK_CHAR_ATTRIBUTES_TYPE_STYLE = {
 "+" : "+", #•  Superscript: <+>
 "-" : "-", #•  Subscript: <-> (hyphen)
 "V" : "", #•  Superior: <V>
+"*" : "", #•  <* stuff
+"f" : "span font=", #•  Change font*: <f"font name">
 }
 
 QUARK_CHAR_ATTRIBUTES_OTHERS = {
-"f" : "", #•  Change font*: <f"font name">
+"*" : "", #•  Change font size*: <z###.##> in points
+"f" : "span font=", #•  Change font*: <f"font name">
 "z" : "", #•  Change font size*: <z###.##> in points
 "c" : "", #•  Change color*: <c"color name"> or <cC, cM, cY, cK, and cW>
 "s" : "", #•  Change shade*: <s###.#> in percentage of shade
@@ -147,9 +150,6 @@ QUARK_CHAR_ATTRIBUTES = dict(QUARK_CHAR_ATTRIBUTES_TYPE_STYLE, **QUARK_CHAR_ATTR
 #In [4]: "".join(list(q.QUARK_SPECIAL_CHARACTERS))
 #Out[4]: '@<\\nd-tsepf_ahm#$^*{}jo'
 
-def remove_returns(tagged_text):
-    """Replace return with nothing."""
-    return tagged_text.replace("\r", "")
 
 def replace_unicode(tagged_text):
     """Replace Quark escaped character by their unicode codepoint."""
@@ -231,10 +231,13 @@ XTG_BOOLEAN_CHARACTER_ATTRIBUTES = 'PBIOSUWRKHVp\+\-'
 XTG_NUMERIC_CHARACTER_ATTRIBUTES = 'Gshktbypnfcz'
 
 class BooleanCharacterAttribute(str):
-    grammar = attr('name', re.compile('(a$|a\$\$|[\$PBIOSUWRKHV\+\-])')) #'((a{0,1}\${0,1,2})|[\$PBIOSUWRKHV\+\-])'  # '([\$PBIOSUWRKHV\+\-]|@\$p|o\(\$\))' Move o($) to StringCharacterAttribute
+    log.debug(name)
+    grammar = attr('name', re.compile('(a$|a\$\$|[\$PBIOSUWRKHV*\*\+\-])')) #'((a{0,1}\${0,1,2})|[\$PBIOSUWRKHV\+\-])'  # '([\$PBIOSUWRKHV\+\-]|@\$p|o\(\$\))' Move o($) to StringCharacterAttribute
 class NumericCharacterAttribute(str):
+    log.debug(name)
     grammar = attr('name', re.compile('[Gshktbypnfcaz]')), attr('value', re.compile('[0-9\.\$\-]+'))
 class StringCharacterAttribute(str):
+    log.debug(name)
     grammar = attr('name', re.compile('[fco]')), attr('value', re.compile('(\"[a-zA-Z_\-0-9 ]+\")|([CMYKW])|\(((\${0,2})|(\"[a-zA-Z]+\",{0,1}))+\)|(\$)'))
     #                                                                             font (f)       |color (c)| OpenType (o)
 
@@ -257,18 +260,19 @@ class CharacterAttributesTracker:
         #self.cmap = sorted(mapping.character.items(), key = lambda p: len(p[0]), reverse=True)
 
     def reset_type_styles(self):
-        #log.debug("RESET type styles")
+        log.debug("RESET type styles")
+        log.debug("".join(list(QUARK_CHAR_ATTRIBUTES_TYPE_STYLE)))
         for name in "".join(list(QUARK_CHAR_ATTRIBUTES_TYPE_STYLE)):
             self.attributes[name] = False
 
     def reset_all(self):
         """Reset all attributes, e.g. upon encountering a <$> tag."""
-        #log.debug("RESET all styles")
+        log.debug("RESET all styles")
         for name in XTG_BOOLEAN_CHARACTER_ATTRIBUTES + XTG_NUMERIC_CHARACTER_ATTRIBUTES:
             self.attributes[name] = False
 
     def update_attribute(self, a):
-        #log.debug("Updating character attribute " + a.name)
+        log.debug("Updating character attribute " + a.name)
         if a.name in ('$' , '$$', 'P'):
             self.reset_type_styles()
         elif a.name in('a$', 'a$$'):
@@ -278,12 +282,14 @@ class CharacterAttributesTracker:
         elif isinstance(a, NumericCharacterAttribute):
             self.attributes[a.name] = a.value if a.value is not '$' else False
         else:
+            log.debug("it stops here")
             pass # placeholder for handling StringCharacterAttributes if and when required.
 
 
     def update(self, tag):
         """Update the counter from tag."""
-        #log.debug(str(tag) +  str(tag.text) + str(tag.attrib))
+        log.debud("I will ill try")
+        log.debug(str(tag) +  str(tag.text) + str(tag.attrib))
         # First process the character stylesheet, if present. <@$>, <@$p> and <@> mean 'Normal', 'Paragraph' and 'No styleseet'
         # respectively; for our purpose they are all equivalent to 'No stylesheet'.
         try:
@@ -301,17 +307,20 @@ class CharacterAttributesTracker:
                 self.character_stylesheet = stylesheet
         except KeyError:
             pass  # No character stylesheet
+            log.debug("it stops here too")
 
         # Then process the character attributes:
         try:
             for a in pparse(tag.attrib['char_attributes'], CharacterAttributes):
               self.update_attribute(a)
         except KeyError:
+          log.debug("it stops here too again")
           pass  # No character attributes
 
 def propagate_class(tree):
     """Propagate the "class" attribute to <p> tags that don't have one."""
     for t in tree.iter('P'):
+        log.debug("t")
         try:
             # If there is a "class" already make a note of it
             new_class =  t.attrib['class']
@@ -336,29 +345,37 @@ def fix_character_attributes(tree, keep={}):
     """Walk the DOM to keep track of characater attributes and replace the xtag with XML tags.
     The "keep" argument determine which xtags to retain in the XML: if True, keep all; if a dict of {"xtags": xmltag}
     pairs, add this dict to QUARK_CHAR_ATTRIBUTES and only attributes with an explicit mapping will be preserved."""
-    #log.info('Processing character attributes...')
+    log.info('Processing character attributes...')
     QUARK_CHAR_ATTRIBUTES.update(keep)
+    log.info(QUARK_CHAR_ATTRIBUTES)
     tracker = CharacterAttributesTracker()
+    log.debug("tracker done")
     for p in tree.iter('P'):
+        log.debug(p)
         tracker.reset_all() # I *think* we reset all character attributes with a new paragraph.
         tracker.update(p)
-        #log.info('p:+str: ' + str(p.text))
-        #log.info('  |atr: ' + str(p.attrib))
-        #log.info('  |trk: ' + ''.join([k for k, v in tracker.attributes.items() if v is not False]))
+        log.info('p:+str: ' + str(p.text))
+        log.info('  |atr: ' + str(p.attrib))
+        log.info('  |trk: ' + ''.join([k for k, v in tracker.attributes.items() if v is not False]))
         # attributes other than 'class', if present, are no longer needed:
         try:
             del(p.attrib['char_attributes'])
         except KeyError:
+            log.info("Key Error 1")
             pass
         try:
             del(p.attrib['char_stylesheet'])
         except KeyError:
+            log.info("Key Error 2")
             pass
+        log.info("And on we go")
         for t in p.iter('CharStyle'):
+            log.info("update tracker")
             tracker.update(t)
-            #log.info('t:+str: ' + str(t.text))
-            #log.info('  |atr: ' + str(t.attrib))
-            #log.info('  |trk: ' + ''.join([k for k, v in tracker.attributes.items() if v is not False]))
+            log.info("finished tracker")
+            log.info('t:+str: ' + str(t.text))
+            log.info('  |atr: ' + str(t.attrib))
+            log.info('  |trk: ' + ''.join([k for k, v in tracker.attributes.items() if v is not False]))
             t.attrib.clear()  # remove existing attributes before setting our own
 
             if tracker.character_stylesheet is not None:
@@ -371,7 +388,7 @@ def fix_character_attributes(tree, keep={}):
             for a, v in tracker.attributes.items():
                 if v and QUARK_CHAR_ATTRIBUTES[a] != "":
                     #print('  |atr1: ' + a+ ' '+ str(v))
-                    #log.info('  |atr1: ' + a+ ' '+ str(v))
+                    log.info('  |atr1: ' + a+ ' '+ str(v))
                     sub.text = None
                     sub = SubElement(sub, a)
                     sub.text = t_text
@@ -399,12 +416,6 @@ def recursive_wrap(tag, tag_list):
 #####################################
 
 def to_xml(tagged_text, extra_tags_to_keep={}):
-    ###tree = create_tree(pparse(replace_unicode(tagged_text), Article))
-    #import pdb; pdb.set_trace()
-    #tagged_text = replace_unicode(tagged_text)
-    #tagged_text = remove_returns(tagged_text)
-    #tagged_text = replace_newlines(tagged_text)
-    #tree = create_tree(pparse(tagged_text, Article))
     tree =  create_tree(pparse(replace_unicode(tagged_text), Article))
     strip_tags(tree, 'Text') # Text tags are unstyled text and can be stripped
     propagate_class(tree)
