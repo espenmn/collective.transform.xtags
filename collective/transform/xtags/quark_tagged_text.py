@@ -154,7 +154,7 @@ def remove_returns(tagged_text):
 def replace_unicode(tagged_text):
     """Replace Quark escaped character by their unicode codepoint."""
     #return return, it brea
-    tagged_text = tagged_text.replace("\r", "")
+    #tagged_text = tagged_text.replace("\r", "")
     escaped_chars_regex = re.compile(r'<\\!{0,1}([@<\\nd\-tsepf_ahm#\$\^\*{}jo])>')    #'<\\!{0,1}([fhsnpea@_])>')
     ket_regex = re.compile(r' >(\w)')
     t = ket_regex.sub(lambda match: ' '+match.group(1), tagged_text) # hack -- apparently a solitary ">" before a word is a soft hyphen (undocumented?)
