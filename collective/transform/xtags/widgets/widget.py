@@ -26,7 +26,7 @@ class XtagsWidget(text.TextWidget):
             serialised_xml = tostring(element_tree, encoding='utf-8')
             return serialised_xml
         except:
-            return (u"Sorry, rendering error"]
+            return u"[Sorry, rendering error]"
 
     zope.interface.implementsOnly(IXtagsWidget)
 
