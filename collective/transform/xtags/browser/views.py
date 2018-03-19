@@ -22,5 +22,6 @@ class RenderFromXtags(BrowserView):
             element_tree = to_xml(tagged_text.decode('utf-8'))
             serialised_xml = tostring(element_tree, encoding='utf-8')
             return serialised_xml
+            
         except:
             return '<p class="error">[rendering error]<p>'

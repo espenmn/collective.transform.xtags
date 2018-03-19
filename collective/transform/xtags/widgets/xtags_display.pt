@@ -2,7 +2,6 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       tal:omit-tag="">
  <body>
-  <!--div tal:content="structure view/render_xtags" /-->
-  <div tal:content="structure view/@@render_from_xtags" />
+  <div tal:content="structure view/get_xtags" />
 </body>
  </html>
