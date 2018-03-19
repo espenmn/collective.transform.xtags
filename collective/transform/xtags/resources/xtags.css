@@ -65,7 +65,7 @@ a#you_are_here {
 }
 
 #xtags-holder {
-	display: none;
+	xdisplay: none;
 	opacity:  0.4;
 }
 

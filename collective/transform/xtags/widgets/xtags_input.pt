@@ -18,13 +18,13 @@
 
 <div class="flexbox">
   <pre id="xtags_field" class="xtags-textarea" role="textbox" contenteditable="true" tal:content="view/value"></pre>
-  
+
   <div id="result" class="fullwidth"></div>
 </div>
 <link rel="stylesheet" href="++resource++collective.transform.xtags/xtags.css" />
 <script>
 $( "#mdpreview" ).click(function() {
-$("#xtags_field").unmark();
+    $("#xtags_field").unmark();
       var xtg = $('#xtags_field').text() ;
       $('#xtags-holder').html( xtg )
       $("#xtags_field").markRegExp(/<[PBIOSUW/RKH+-V]*>/);
