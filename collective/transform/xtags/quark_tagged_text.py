@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+ # -*- coding: utf-8 -*-
 """
 Convert Quark Xpress xtags to XML.
 
@@ -57,7 +57,8 @@ QUARK_ENCODINGS = {
   19: 'cp949',       #• Korean Windows (MS codePage 949): <e19>
   20: 'ksc5601',     #• Korean Mac (KSC5601): <e20>
   6: 'big5',         #• Traditional Chinese (BIG5): <e6>
-  7: 'gb2312'}       #• Simplified Chinese (GB2312): <e7>
+  7: 'gb2312',       #• Simplified Chinese (GB2312): <e7>
+}
 
 #QUARK_ESCAPED_CHARACTERS = {} # See the first three special characters below.
 
@@ -152,13 +153,11 @@ def remove_returns(tagged_text):
     return tagged_text.replace("\r", "")
 
 def replace_unicode(tagged_text):
-    """Replace Quark escaped character by their unicode codepoint."""
-    #return return, it brea
-    #tagged_text = tagged_text.replace("\r", "")
-    escaped_chars_regex = re.compile(r'<\\!{0,1}([@<\\nd\-tsepf_ahm#\$\^\*{}jo])>')    #'<\\!{0,1}([fhsnpea@_])>')
-    ket_regex = re.compile(r' >(\w)')
-    t = ket_regex.sub(lambda match: ' '+match.group(1), tagged_text) # hack -- apparently a solitary ">" before a word is a soft hyphen (undocumented?)
-    return tagged_text  #escaped_chars_regex.sub(lambda match: QUARK_SPECIAL_CHARACTERS[match.group(1)], t)
+	"""Replace Quark escaped character by their unicode codepoint."""
+	escaped_chars_regex = re.compile(r'<\\!{0,1}([@<\\nd\-tsepf_ahm#\$\^\*{}jo])>')    #'<\\!{0,1}([fhsnpea@_])>')
+	ket_regex = re.compile(r' >(\w)')
+	t = ket_regex.sub(lambda match: ' '+match.group(1), tagged_text) # hack -- apparently a solitary ">" before a word is a soft hyphen (undocumented?)
+	return escaped_chars_regex.sub(lambda match: QUARK_SPECIAL_CHARACTERS[match.group(1)], t)
 
 
 #################################
