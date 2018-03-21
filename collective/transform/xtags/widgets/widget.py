@@ -20,7 +20,6 @@ class XtagsWidget(text.TextWidget):
     """Xtags Widget"""
 
     def get_xtags(self):
-        import pdb; pdb.set_trace()
         #hack to get around unicode errors
         #there must be a quicker way to do this (?)
         tagged_text = self.value.replace("\r", "")
