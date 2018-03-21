@@ -186,7 +186,7 @@ para_attributes = ('<*', attr('para_attributes', re.compile(r'[^<>]+')), '>')
 #• Apply No Style character style sheet:        <@>
 #• Apply defined character style sheet:         <@stylesheetname>
 # Use <x@... to reset all previously set character attributes overrides
-char_stylesheet = ['<@', '<@'], attr('char_stylesheet', re.compile(r'[^<>:]*')), '>'  # '<a',
+char_stylesheet = ['<x@', '<@'], attr('char_stylesheet', re.compile(r'[^<>:]*')), '>'  # '<a',
 #reset_char_attributes = '<a', attr('char_attributes', re.compile(r'\${1,2}')), '>'  # "<a$$>",
 char_attributes = '<', attr('char_attributes', re.compile('[^@<>\*]+')), '>'
 
