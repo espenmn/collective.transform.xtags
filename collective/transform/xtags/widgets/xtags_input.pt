@@ -4,7 +4,7 @@
   <!--p class="button-field context fa fa-eye-slash disabled" id="hidepreview">Hide preview</p-->
   <p class="button-field context fa fa-arrows" id="previewv">Columnview</p>
   <p class="button-field context fa fa-eye" id="mdpreview"> Update Preview</p>
-  <p class="button-field context fa fa-toggle-off fa-toggle-on " id="hidemarks"> Toggle tags</p>
+  <p class="button-field context fa fa-toggle-off fa-toggle-on" id="hidemarks"> Toggle tags</p>
 </div>
 <textarea  class="textarea"
              type="textarea"
