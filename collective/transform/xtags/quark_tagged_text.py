@@ -340,11 +340,17 @@ def fix_character_attributes(tree, keep={}):
 
     tracker = CharacterAttributesTracker()
     for p in tree.iter('P'):
-        tracker.reset_all() # I *think* we reset all character attributes with a new paragraph.
-        tracker.update(p)
-        #log.info('p:+str: ' + str(p.text))
-        #log.info('  |atr: ' + str(p.attrib))
-        #log.info('  |trk: ' + ''.join([k for k, v in tracker.attributes.items() if v is not False]))
+        try:
+            tracker.reset_all() # I *think* we reset all character attributes with a new paragraph.
+        except:
+            pass
+        try:
+            tracker.update(p)
+        except:
+            pass
+        log.info('p:+str: ' + str(p.text))
+        log.info('  |atr: ' + str(p.attrib))
+        log.info('  |trk: ' + ''.join([k for k, v in tracker.attributes.items() if v is not False]))
         # attributes other than 'class', if present, are no longer needed:
 
         try:
@@ -360,9 +366,9 @@ def fix_character_attributes(tree, keep={}):
                 tracker.update(t)
             except:
                 pass
-            #log.info('t:+str: ' + str(t.text))
-            #log.info('  |atr: ' + str(t.attrib))
-            #log.info('  |trk: ' + ''.join([k for k, v in tracker.attributes.items() if v is not False]))
+            log.info('t:+str: ' + str(t.text))
+            log.info('  |atr: ' + str(t.attrib))
+            log.info('  |trk: ' + ''.join([k for k, v in tracker.attributes.items() if v is not False]))
 
             try:
                 t.attrib.clear()  # remove existing attributes before setting our own
@@ -377,7 +383,7 @@ def fix_character_attributes(tree, keep={}):
                 for a, v in tracker.attributes.items():
                     if v and QUARK_CHAR_ATTRIBUTES[a] != "":
                         #print('  |atr1: ' + a+ ' '+ str(v))
-                        #log.info('  |atr1: ' + a+ ' '+ str(v))
+                        log.info('  |atr1: ' + a+ ' '+ str(v))
                         sub.text = None
                         sub = SubElement(sub, a)
                         sub.text = t_text
@@ -410,7 +416,9 @@ def recursive_wrap(tag, tag_list):
 #####################################
 
 def to_xml(tagged_text, extra_tags_to_keep={}):
+    log.info('starting')
     tree =  create_tree(pparse(replace_unicode(tagged_text), Article))
+    log.info('made tree')
     strip_tags(tree, 'Text') # Text tags are unstyled text and can be stripped
     propagate_class(tree)
     fix_character_attributes(tree, extra_tags_to_keep)
