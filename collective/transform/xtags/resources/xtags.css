@@ -1,4 +1,7 @@
-/* @override http://localhost:8080/mymime/front-page/++resource++collective.transform.xtags/xtags.css */
+/* @override 
+	http://localhost:8080/mymime/front-page/++resource++collective.transform.xtags/xtags.css
+	http://localhost:8080/Plone/snorre/++resource++collective.transform.xtags/xtags.css
+*/
 
 .btn-group {
 	display: inline
@@ -18,10 +21,12 @@
 
 .xtags-textarea {
 	white-space: pre-wrap;
-	xwhite-space: pre-line;
+	white-space: -moz-pre-wrap !important;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	word-wrap: break-word;
 	float: left;
 	min-height: 300px;
-	xdisplay:  inline-block;
 	width: 100%;
 }
 
@@ -76,5 +81,5 @@ mark {
 }
 
 .hidemarks mark {
-  xdisplay: none !important;
+  display: none !important;
 }
