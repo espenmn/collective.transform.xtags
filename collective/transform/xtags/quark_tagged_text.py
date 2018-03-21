@@ -363,28 +363,35 @@ def fix_character_attributes(tree, keep={}):
             #log.info('t:+str: ' + str(t.text))
             #log.info('  |atr: ' + str(t.attrib))
             #log.info('  |trk: ' + ''.join([k for k, v in tracker.attributes.items() if v is not False]))
-            t.attrib.clear()  # remove existing attributes before setting our own
 
-            if tracker.character_stylesheet is not None:
-                # There is a stylesheet applied. Rename the tag and set the style attribute.
-                t.tag = 'StyledText'
-                t.attrib["style"] = tracker.character_stylesheet
-            # Wrap the tag's text into a subtag for each attribute, recursively
-            sub = t
-            t_text = t.text
-            for a, v in tracker.attributes.items():
-                if v and QUARK_CHAR_ATTRIBUTES[a] != "":
-                    #print('  |atr1: ' + a+ ' '+ str(v))
-                    #log.info('  |atr1: ' + a+ ' '+ str(v))
-                    sub.text = None
-                    sub = SubElement(sub, a)
-                    sub.text = t_text
-                    if v is not True:
-                        # For non-boolean attributes, set the value.
-                        sub.attrib['value'] = v
+            try:
+                t.attrib.clear()  # remove existing attributes before setting our own
+
+                if tracker.character_stylesheet is not None:
+                    # There is a stylesheet applied. Rename the tag and set the style attribute.
+                    t.tag = 'StyledText'
+                    t.attrib["style"] = tracker.character_stylesheet
+                # Wrap the tag's text into a subtag for each attribute, recursively
+                sub = t
+                t_text = t.text
+                for a, v in tracker.attributes.items():
+                    if v and QUARK_CHAR_ATTRIBUTES[a] != "":
+                        #print('  |atr1: ' + a+ ' '+ str(v))
+                        #log.info('  |atr1: ' + a+ ' '+ str(v))
+                        sub.text = None
+                        sub = SubElement(sub, a)
+                        sub.text = t_text
+                        if v is not True:
+                            # For non-boolean attributes, set the value.
+                            sub.attrib['value'] = v
+            except:
+                pass
+
     # All CharStyle tags are now empty and can be deleted
-    strip_tags(tree, 'CharStyle')
-
+    try:
+        strip_tags(tree, 'CharStyle')
+    except:
+        pass
 
 # Consider replacing the code above with the following function
 def recursive_wrap(tag, tag_list):
