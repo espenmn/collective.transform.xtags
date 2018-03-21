@@ -23,6 +23,7 @@ class XtagsWidget(text.TextWidget):
         #hack to get around unicode errors
         #there must be a quicker way to do this (?)
         tagged_text = self.value.replace("\r", "")
+        tagged_text = tagged_text.replace("\<\*", "\n\<\*")
 
         #or self.context.qrktext
         #encoded_text = tagged_text.encode('utf-8')
