@@ -1,4 +1,4 @@
- # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
 Convert Quark Xpress xtags to XML.
 
@@ -38,7 +38,7 @@ from pypeg2 import *
 from pypeg2 import parse as pparse
 from pypeg2.xmlast import create_tree
 from lxml.etree import strip_tags, tostring, SubElement
-#import logging as log
+import logging as log
 
 
 
@@ -186,7 +186,7 @@ para_attributes = ('<*', attr('para_attributes', re.compile(r'[^<>]+')), '>')
 #• Apply No Style character style sheet:        <@>
 #• Apply defined character style sheet:         <@stylesheetname>
 # Use <x@... to reset all previously set character attributes overrides
-char_stylesheet = ['<x@', '<@'], attr('char_stylesheet', re.compile(r'[^<>:]*')), '>'  # '<a',
+char_stylesheet = ['<@', '<@'], attr('char_stylesheet', re.compile(r'[^<>:]*')), '>'  # '<a',
 #reset_char_attributes = '<a', attr('char_attributes', re.compile(r'\${1,2}')), '>'  # "<a$$>",
 char_attributes = '<', attr('char_attributes', re.compile('[^@<>\*]+')), '>'
 
@@ -256,18 +256,18 @@ class CharacterAttributesTracker:
         #self.cmap = sorted(mapping.character.items(), key = lambda p: len(p[0]), reverse=True)
 
     def reset_type_styles(self):
-        #log.debug("RESET type styles")
+        log.info("RESET type styles")
         for name in "".join(list(QUARK_CHAR_ATTRIBUTES_TYPE_STYLE)):
             self.attributes[name] = False
 
     def reset_all(self):
         """Reset all attributes, e.g. upon encountering a <$> tag."""
-        #log.debug("RESET all styles")
+        log.info("RESET all styles")
         for name in XTG_BOOLEAN_CHARACTER_ATTRIBUTES + XTG_NUMERIC_CHARACTER_ATTRIBUTES:
             self.attributes[name] = False
 
     def update_attribute(self, a):
-        #log.debug("Updating character attribute " + a.name)
+        log.info("Updating character attribute " + a.name)
         if a.name in ('$' , '$$', 'P'):
             self.reset_type_styles()
         elif a.name in('a$', 'a$$'):
@@ -282,7 +282,7 @@ class CharacterAttributesTracker:
 
     def update(self, tag):
         """Update the counter from tag."""
-        #log.debug(str(tag) +  str(tag.text) + str(tag.attrib))
+        log.info(str(tag) +  str(tag.text) + str(tag.attrib))
         # First process the character stylesheet, if present. <@$>, <@$p> and <@> mean 'Normal', 'Paragraph' and 'No styleseet'
         # respectively; for our purpose they are all equivalent to 'No stylesheet'.
         try:
@@ -335,8 +335,9 @@ def fix_character_attributes(tree, keep={}):
     """Walk the DOM to keep track of characater attributes and replace the xtag with XML tags.
     The "keep" argument determine which xtags to retain in the XML: if True, keep all; if a dict of {"xtags": xmltag}
     pairs, add this dict to QUARK_CHAR_ATTRIBUTES and only attributes with an explicit mapping will be preserved."""
-    #log.info('Processing character attributes...')
+    log.info('Processing character attributes...')
     QUARK_CHAR_ATTRIBUTES.update(keep)
+
     tracker = CharacterAttributesTracker()
     for p in tree.iter('P'):
         tracker.reset_all() # I *think* we reset all character attributes with a new paragraph.
@@ -345,6 +346,7 @@ def fix_character_attributes(tree, keep={}):
         #log.info('  |atr: ' + str(p.attrib))
         #log.info('  |trk: ' + ''.join([k for k, v in tracker.attributes.items() if v is not False]))
         # attributes other than 'class', if present, are no longer needed:
+
         try:
             del(p.attrib['char_attributes'])
         except KeyError:
@@ -354,7 +356,10 @@ def fix_character_attributes(tree, keep={}):
         except KeyError:
             pass
         for t in p.iter('CharStyle'):
-            tracker.update(t)
+            try:
+                tracker.update(t)
+            except:
+                pass
             #log.info('t:+str: ' + str(t.text))
             #log.info('  |atr: ' + str(t.attrib))
             #log.info('  |trk: ' + ''.join([k for k, v in tracker.attributes.items() if v is not False]))
