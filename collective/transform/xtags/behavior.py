@@ -24,7 +24,7 @@ class IXtagsBehavior(form.Schema):
 
     qrktext = schema.Text(
     	title=u"Quark Xpress Tags text",
-    	description=u"Note: You can select text to preview, or preview all",
+    	description=u"Note: Preview is updated when hitting enter. You need to Click on preview before saving.",
     )
 
     form.widget(

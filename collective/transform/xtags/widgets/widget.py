@@ -20,13 +20,23 @@ class XtagsWidget(text.TextWidget):
     """Xtags Widget"""
 
     def get_xtags(self):
-        tagged_text = self.value
+        import pdb; pdb.set_trace()
+        #hack to get around unicode errors
+        #there must be a quicker way to do this (?)
+        tagged_text = self.value.replace("\r", "")
+
+        #or self.context.qrktext
+        #encoded_text = tagged_text.encode('utf-8')
+
+
         try:
-            element_tree = to_xml(tagged_text.decode('utf-8'))
+            element_tree = to_xml(tagged_text)
             serialised_xml = tostring(element_tree, encoding='utf-8')
             return serialised_xml
+
         except:
-            return u"[Sorry, rendering error]"
+            return '<p class="error">[rendering error]<p>'
+
 
     zope.interface.implementsOnly(IXtagsWidget)
 
