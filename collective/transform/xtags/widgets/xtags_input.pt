@@ -34,7 +34,7 @@ $( "#mdpreview" ).click(function() {
       var md = $('#xtags-holder').selection();
       len = md.length;
       if (len < 3)  {
-            ar md = $('#xtags-holder').val();
+        var md = $('#xtags-holder').val();
       }
   $.post("render_from_xtags", { tagged_text: md}, function( data ) {
     $( "#result" ).html( data );
