@@ -19,6 +19,7 @@ class RenderFromXtags(BrowserView):
         #not sure why this is needed,
         #but <* on same line breaks the rendering
         tagged_text = tagged_text.replace(" <*", "\n<*")
+        #tagged_text = tagged_text.replace(" <*", "\n<*")
 
         try:
             element_tree = to_xml(tagged_text.decode('utf-8'))

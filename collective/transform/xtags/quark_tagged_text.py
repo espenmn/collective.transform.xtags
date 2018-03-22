@@ -156,7 +156,6 @@ def remove_returns(tagged_text):
 
 def replace_unicode(tagged_text):
 	"""Replace Quark escaped character by their unicode codepoint."""
-	tagged_text = tagged_text.replace("&#", "&")
 	escaped_chars_regex = re.compile(r'<\\!{0,1}([@<\\nd\-tsepf_ahm#\$\^\*{}jo])>')    #'<\\!{0,1}([fhsnpea@_])>')
 	ket_regex = re.compile(r' >(\w)')
 	t = ket_regex.sub(lambda match: ' '+match.group(1), tagged_text) # hack -- apparently a solitary ">" before a word is a soft hyphen (undocumented?)
@@ -420,12 +419,18 @@ def recursive_wrap(tag, tag_list):
 
 def to_xml(tagged_text, extra_tags_to_keep={}):
     log.info('starting')
-    log.info('starting')
-    tree = lxml.html.fromstring(replace_unicode(tagged_text))
-    tree =  create_tree(pparse(replace_unicode(tostring(tree)), Article))
+    #tree = lxml.html.fromstring(replace_unicode(tagged_text))
+    tree =  create_tree(pparse(replace_unicode(tagged_text), Article))
     log.info('made tree')
-    strip_tags(tree, 'text') # Text tags are unstyled text and can be stripped
+
+    #strip_tags(tree, 'text') # Text tags are unstyled text and can be stripped
     strip_tags(tree, 'Text') # Text tags are unstyled text and can be stripped
-    propagate_class(tree)
-    fix_character_attributes(tree, extra_tags_to_keep)
+    try:
+        propagate_class(tree)
+    except:
+        pass
+    try:
+        fix_character_attributes(tree, extra_tags_to_keep)
+    except:
+        pass
     return tree
