@@ -12,9 +12,7 @@ from lxml.etree import tostring, fromstring
 from collective.transform.xtags.quark_tagged_text import to_xml
 #from collective.transform.xtags.interfaces import IXtagsSettings
 
-
-#import lxml.html
-#from lxml.html.clean import Cleaner
+import re
 
 class IXtagsWidget(interfaces.IWidget):
     """Xtags widget."""
@@ -25,15 +23,15 @@ class XtagsWidget(text.TextWidget):
 
     def get_xtags(self):
         #there must be a quicker way to do this (?)
-        tagged_text = self.value.replace("\r", "")
+        pattern = re.compile(r"\<.*?\>")
+        tagged_text = pattern.sub(lambda match: match.group(0).replace('*', "") ,self.value)
+
         #not sure why this is needed,
-        #but <* on same line breaks the rendering
-        #tagged_text = tagged_text.replace("<*", "\n<*")
-        tagged_text = tagged_text.replace("<*", " <*")
+        tagged_text = tagged_textreplace("\r", "")
         tagged_text = tagged_text.replace(">@", "> \n@")
-        tagged_text = tagged_text.replace("<*", "<")
-        #tagged_text = tagged_text.replace(" <*", "\n<*")
-        #tagged_text = tagged_text.replace("<", "\n<")
+        tagged_text = tagged_text.replace("\<\\c\>", "\<\\c\> \\n")
+        tagged_text = tagged_text.replace("\<\\b\>", "\<\\b\> \\n")
+        tagged_text = tagged_text.replace("@\ :", "@")
 
 
         try:
