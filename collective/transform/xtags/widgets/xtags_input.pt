@@ -31,10 +31,10 @@ $( "#mdpreview" ).click(function() {
       $("#xtags_field").markRegExp(/<([^>]*)>/);
       $("#xtags_field").mark('@Normal=');
       $("#xtags_field").mark('@$:', );
-      var md = $('#xtags-holder').selection().val();
+      var md = $('#xtags-field').selection();
       len = md.length;
       if (len < 3)  {
-        var md = $('#xtags-holder').val();
+        var md = $('#xtags-field').val();
       }
   $.post("render_from_xtags", { tagged_text: md}, function( data ) {
     $( "#result" ).html( data );
