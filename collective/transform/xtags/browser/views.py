@@ -19,6 +19,7 @@ class RenderFromXtags(BrowserView):
         #not sure why this is needed,
         #but <* on same line breaks the rendering
         tagged_text = tagged_text.replace("<*", " <*")
+        tagged_text = tagged_text.replace(": <*", ":<*")
         tagged_text = tagged_text.replace(" <*", "\n<*")
 
         try:
