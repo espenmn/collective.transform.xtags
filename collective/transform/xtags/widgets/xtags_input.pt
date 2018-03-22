@@ -25,17 +25,13 @@
 <link rel="stylesheet" href="++resource++collective.transform.xtags/xtags.css" />
 <script>
 $( "#mdpreview" ).click(function() {
-  $("#xtags_field").unmark();
+    $("#xtags_field").unmark();
       var xtg = $('#xtags_field').text() ;
       $('#xtags-holder').html( xtg )
       $("#xtags_field").markRegExp(/<([^>]*)>/);
       $("#xtags_field").mark('@Normal=');
       $("#xtags_field").mark('@$:', );
-      var md = $('#xtags-field').select();
-      len = md.length;
-      if (len < 3)  {
-        var md = $('#xtags-field').val();
-      }
+      var md = $('#xtags-holder').val();
   $.post("render_from_xtags", { tagged_text: md}, function( data ) {
     $( "#result" ).html( data );
     $('#form-buttons-save').show();
