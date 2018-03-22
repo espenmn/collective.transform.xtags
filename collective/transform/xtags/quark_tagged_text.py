@@ -121,6 +121,7 @@ QUARK_CHAR_ATTRIBUTES_TYPE_STYLE = {
 }
 
 QUARK_CHAR_ATTRIBUTES_OTHERS = {
+"*" : "", #•  I think this means something like 'keep parent', dont think we need it
 "f" : "", #•  Change font*: <f"font name">
 "z" : "", #•  Change font size*: <z###.##> in points
 "c" : "", #•  Change color*: <c"color name"> or <cC, cM, cY, cK, and cW>
