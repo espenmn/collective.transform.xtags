@@ -14,17 +14,22 @@ class RenderFromXtags(BrowserView):
 
     def render_xtags(self, tagged_text=""):
         """Return quark xtags as a stringified HTML document."""
-        tagged_text = self.request.tagged_text
+        #tagged_text = self.request.tagged_text
+        pattern = re.compile(r"\<.*?\>")
+        tagged_text = pattern.sub(lambda match: match.group(0).replace('*', "") ,self.request.tagged_text)
 
         #not sure why this is needed,
         #but <* on same line breaks the rendering
-        tagged_text = tagged_text.replace("<*", " <*")
+        #tagged_text = tagged_text.replace("<*", " <*")
         #tagged_text = tagged_text.replace(": <*", ":<*")
         #tagged_text = tagged_text.replace(" <*", "\n<*")
+        #tagged_text = tagged_text.replace("<*", "<")
         tagged_text = tagged_text.replace(">@", "> \n@")
-        tagged_text = tagged_text.replace("<*", "<")
-
-
+        tagged_text = tagged_text.replace("\<\\c\>", "\<\\c\> \\n")
+        tagged_text = tagged_text.replace("\<\\b\>", "\<\\b\> \\n")
+        tagged_text = tagged_text.replace("@\ :", "@")
+        
+        
         try:
             element_tree = to_xml(tagged_text.decode('utf-8'))
             serialised_xml = tostring(element_tree, encoding='utf-8')
