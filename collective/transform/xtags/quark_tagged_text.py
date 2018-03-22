@@ -104,6 +104,7 @@ QUARK_SPECIAL_CHARACTERS = {
 # Character attributes are divided in two categories: type styles (can be reset with the <P> tag) and all the others.
 # This division is relevant e.g. for the <$> and <$$> vs <a$> and <a$$> tags, so we create two dicts and then a combined dict.
 QUARK_CHAR_ATTRIBUTES_TYPE_STYLE = {
+"*" : "", #•  I think this means something like 'keep parent', dont think we need it
 "P" : "", #•  Plain: <P>
 "B" : "b", #•  Bold: <B>
 "I" : "i", #•  Italic: <I>
