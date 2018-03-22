@@ -21,7 +21,7 @@ class RenderFromXtags(BrowserView):
         tagged_text = tagged_text.replace("<*", " <*")
         tagged_text = tagged_text.replace(": <*", ":<*")
         tagged_text = tagged_text.replace(" <*", "\n<*")
-        tagged_text = tagged_text.replace(">@", ">\n@")
+        tagged_text = tagged_text.replace(">@", "> \n@")
 
 
         try:
