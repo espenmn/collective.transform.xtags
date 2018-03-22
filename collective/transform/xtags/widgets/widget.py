@@ -29,10 +29,12 @@ class XtagsWidget(text.TextWidget):
         #not sure why this is needed,
         #but <* on same line breaks the rendering
         #tagged_text = tagged_text.replace("<*", "\n<*")
+        tagged_text = tagged_text.replace(": <*", ":<*")
         tagged_text = tagged_text.replace("<*", " <*")
+        tagged_text = tagged_text.replace("<*", "<")
         tagged_text = tagged_text.replace(" <*", "\n<*")
-        tagged_text = tagged_text.replace("<", "\n<")
-
+        tagged_text = tagged_text.replace(">@", "> \n@")
+        
         try:
             element_tree = to_xml(tagged_text)
             serialised_xml = tostring(element_tree, encoding='utf-8')
