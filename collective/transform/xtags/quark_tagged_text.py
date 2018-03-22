@@ -230,8 +230,8 @@ class Article(List):
 ### PART 3a: PARSE CHARACTER ATTRIBUTES ###
 ###########################################
 
-XTG_BOOLEAN_CHARACTER_ATTRIBUTES = 'PBIOSUWRKHVp\+\-'
-XTG_NUMERIC_CHARACTER_ATTRIBUTES = 'Gshktbypnfcz'
+XTG_BOOLEAN_CHARACTER_ATTRIBUTES = '\*PBIOSUWRKHVp\+\-'
+XTG_NUMERIC_CHARACTER_ATTRIBUTES = '\*Gshktbypnfcz'
 
 class BooleanCharacterAttribute(str):
     grammar = attr('name', re.compile('(a$|a\$\$|[\$PBIOSUWRKHV\+\-])')) #'((a{0,1}\${0,1,2})|[\$PBIOSUWRKHV\+\-])'  # '([\$PBIOSUWRKHV\+\-]|@\$p|o\(\$\))' Move o($) to StringCharacterAttribute
