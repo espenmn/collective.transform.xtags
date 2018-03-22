@@ -420,9 +420,8 @@ def recursive_wrap(tag, tag_list):
 
 def to_xml(tagged_text, extra_tags_to_keep={}):
     log.info('starting')
-    log.info('starting')
     tree = lxml.html.fromstring(replace_unicode(tagged_text))
-    tree =  create_tree(pparse(replace_unicode(tohtml(tree)), Article))
+    tree =  create_tree(pparse((tohtml(tree)), Article))
     log.info('made tree')
     strip_tags(tree, 'text') # Text tags are unstyled text and can be stripped
     strip_tags(tree, 'Text') # Text tags are unstyled text and can be stripped
