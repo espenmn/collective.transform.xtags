@@ -234,9 +234,9 @@ XTG_BOOLEAN_CHARACTER_ATTRIBUTES = '\*PBIOSUWRKHVp\+\-'
 XTG_NUMERIC_CHARACTER_ATTRIBUTES = '\*Gshktbypnfcz'
 
 class BooleanCharacterAttribute(str):
-    grammar = attr('name', re.compile('(a$|a\$\$|[\$PBIOSUWRKHV\+\-])')) #'((a{0,1}\${0,1,2})|[\$PBIOSUWRKHV\+\-])'  # '([\$PBIOSUWRKHV\+\-]|@\$p|o\(\$\))' Move o($) to StringCharacterAttribute
+    grammar = attr('name', re.compile('(a$|a\$\$|[\$P\*BIOSUWRKHV\+\-])')) #'((a{0,1}\${0,1,2})|[\$PBIOSUWRKHV\+\-])'  # '([\$PBIOSUWRKHV\+\-]|@\$p|o\(\$\))' Move o($) to StringCharacterAttribute
 class NumericCharacterAttribute(str):
-    grammar = attr('name', re.compile('[Gshktbypnfcaz]')), attr('value', re.compile('[0-9\.\$\-]+'))
+    grammar = attr('name', re.compile('[\*Gshktbypnfcaz]')), attr('value', re.compile('[0-9\.\$\-]+'))
 class StringCharacterAttribute(str):
     grammar = attr('name', re.compile('[fco]')), attr('value', re.compile('(\"[a-zA-Z_\-0-9 ]+\")|([CMYKW])|\(((\${0,2})|(\"[a-zA-Z]+\",{0,1}))+\)|(\$)'))
     #                                                                             font (f)       |color (c)| OpenType (o)
