@@ -30,10 +30,9 @@ class XtagsWidget(text.TextWidget):
         #but <* on same line breaks the rendering
         #tagged_text = tagged_text.replace("<*", "\n<*")
         tagged_text = tagged_text.replace("<*", " <*")
-        #tagged_text = tagged_text.replace(": <*", ":<*")
-        #tagged_text = tagged_text.replace(" <*", "\n<*")
-        tagged_text = tagged_text.replace(">@", "> \n@")
-        tagged_text = tagged_text.replace("<*", "<")
+        tagged_text = tagged_text.replace(" <*", "\n<*")
+        tagged_text = tagged_text.replace("<", "\n<")
+
 
         try:
             element_tree = to_xml(tagged_text)
