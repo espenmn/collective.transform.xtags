@@ -30,8 +30,8 @@ class XtagsWidget(text.TextWidget):
         #but <* on same line breaks the rendering
         #tagged_text = tagged_text.replace("<*", "\n<*")
         tagged_text = tagged_text.replace("<*", " <*")
-        tagged_text = tagged_text.replace(": <*", ":<*")
-        tagged_text = tagged_text.replace(" <*", "\n<*")
+        #tagged_text = tagged_text.replace(": <*", ":<*")
+        #tagged_text = tagged_text.replace(" <*", "\n<*")
         tagged_text = tagged_text.replace(">@", "> \n@")
         tagged_text = tagged_text.replace("<*", "<")
 
