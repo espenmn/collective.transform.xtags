@@ -29,9 +29,9 @@ class XtagsWidget(text.TextWidget):
         #not sure why this is needed,
         #but <* on same line breaks the rendering
         #tagged_text = tagged_text.replace("<*", "\n<*")
-        tagged_text = tagged_text.replace("<*", " <*")
-        tagged_text = tagged_text.replace(" <*", "\n<*")
-        tagged_text = tagged_text.replace("<", "\n<")
+        tagged_text = tagged_text.replace("<*", " <")
+        #tagged_text = tagged_text.replace(" <*", "\n<*")
+        #tagged_text = tagged_text.replace("<", "\n<")
 
 
         try:
