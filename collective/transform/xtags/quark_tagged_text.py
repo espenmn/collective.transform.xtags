@@ -104,7 +104,6 @@ QUARK_SPECIAL_CHARACTERS = {
 # Character attributes are divided in two categories: type styles (can be reset with the <P> tag) and all the others.
 # This division is relevant e.g. for the <$> and <$$> vs <a$> and <a$$> tags, so we create two dicts and then a combined dict.
 QUARK_CHAR_ATTRIBUTES_TYPE_STYLE = {
-"*" : "", #•  I think this means something like 'keep parent', dont think we need it
 "P" : "", #•  Plain: <P>
 "B" : "b", #•  Bold: <B>
 "I" : "i", #•  Italic: <I>
@@ -122,7 +121,6 @@ QUARK_CHAR_ATTRIBUTES_TYPE_STYLE = {
 }
 
 QUARK_CHAR_ATTRIBUTES_OTHERS = {
-"*" : "", #•  I think this means something like 'keep parent', dont think we need it
 "f" : "", #•  Change font*: <f"font name">
 "z" : "", #•  Change font size*: <z###.##> in points
 "c" : "", #•  Change color*: <c"color name"> or <cC, cM, cY, cK, and cW>
@@ -230,13 +228,13 @@ class Article(List):
 ### PART 3a: PARSE CHARACTER ATTRIBUTES ###
 ###########################################
 
-XTG_BOOLEAN_CHARACTER_ATTRIBUTES = '\*PBIOSUWRKHVp\+\-'
-XTG_NUMERIC_CHARACTER_ATTRIBUTES = '\*Gshktbypnfcz'
+XTG_BOOLEAN_CHARACTER_ATTRIBUTES = 'PBIOSUWRKHVp\+\-'
+XTG_NUMERIC_CHARACTER_ATTRIBUTES = 'Gshktbypnfcz'
 
 class BooleanCharacterAttribute(str):
-    grammar = attr('name', re.compile('(a$|a\$\$|[\$P\*BIOSUWRKHV\+\-])')) #'((a{0,1}\${0,1,2})|[\$PBIOSUWRKHV\+\-])'  # '([\$PBIOSUWRKHV\+\-]|@\$p|o\(\$\))' Move o($) to StringCharacterAttribute
+    grammar = attr('name', re.compile('(a$|a\$\$|[\$PBIOSUWRKHV\+\-])')) #'((a{0,1}\${0,1,2})|[\$PBIOSUWRKHV\+\-])'  # '([\$PBIOSUWRKHV\+\-]|@\$p|o\(\$\))' Move o($) to StringCharacterAttribute
 class NumericCharacterAttribute(str):
-    grammar = attr('name', re.compile('[\*Gshktbypnfcaz]')), attr('value', re.compile('[0-9\.\$\-]+'))
+    grammar = attr('name', re.compile('[Gshktbypnfcaz]')), attr('value', re.compile('[0-9\.\$\-]+'))
 class StringCharacterAttribute(str):
     grammar = attr('name', re.compile('[fco]')), attr('value', re.compile('(\"[a-zA-Z_\-0-9 ]+\")|([CMYKW])|\(((\${0,2})|(\"[a-zA-Z]+\",{0,1}))+\)|(\$)'))
     #                                                                             font (f)       |color (c)| OpenType (o)
