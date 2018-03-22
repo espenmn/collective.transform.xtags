@@ -27,7 +27,7 @@ class XtagsWidget(text.TextWidget):
         tagged_text = pattern.sub(lambda match: match.group(0).replace('*', "") ,self.value)
 
         #not sure why this is needed,
-        tagged_text = tagged_textreplace("\r", "")
+        tagged_text = tagged_text.replace("\r", "")
         tagged_text = tagged_text.replace(">@", "> \n@")
         tagged_text = tagged_text.replace("\<\\c\>", "\<\\c\> \\n")
         tagged_text = tagged_text.replace("\<\\b\>", "\<\\b\> \\n")
