@@ -5,6 +5,7 @@ from Products.Five.browser import BrowserView
 from lxml.etree import tostring
 from collective.transform.xtags.quark_tagged_text import to_xml
 
+import re
 
 class RenderFromXtags(BrowserView):
     """ quark xtags to html.    """
