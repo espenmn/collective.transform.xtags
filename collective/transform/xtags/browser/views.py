@@ -21,6 +21,8 @@ class RenderFromXtags(BrowserView):
         tagged_text = tagged_text.replace("<*", " <*")
         tagged_text = tagged_text.replace(": <*", ":<*")
         tagged_text = tagged_text.replace(" <*", "\n<*")
+        tagged_text = tagged_text.replace(">@", ">\n@")
+
 
         try:
             element_tree = to_xml(tagged_text.decode('utf-8'))
