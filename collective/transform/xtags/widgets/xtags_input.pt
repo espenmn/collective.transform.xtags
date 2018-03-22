@@ -31,7 +31,7 @@ $( "#mdpreview" ).click(function() {
       $("#xtags_field").markRegExp(/<([^>]*)>/);
       $("#xtags_field").mark('@Normal=');
       $("#xtags_field").mark('@$:', );
-      var md = $('#xtags-holder').selection();
+      var md = $('#xtags-holder').selection().val();
       len = md.length;
       if (len < 3)  {
         var md = $('#xtags-holder').val();
