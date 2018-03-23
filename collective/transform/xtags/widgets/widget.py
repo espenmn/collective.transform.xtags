@@ -29,7 +29,7 @@ class XtagsWidget(text.TextWidget):
 
         #remove spaces in style sheets
         pattern = re.compile(r"\@.*?\:")
-        tagged_text = pattern.sub(lambda match: match.group(0).replace(" ", "") ,self.request.tagged_text)
+        tagged_text = pattern.sub(lambda match: match.group(0).replace(" ", "") ,tagged_text)
 
         #not sure why this is needed,
         tagged_text = tagged_text.replace("\r", "")
