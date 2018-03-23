@@ -28,15 +28,16 @@ class XtagsWidget(text.TextWidget):
         tagged_text = pattern.sub(lambda match: match.group(0).replace('*', ""), self.value)
 
         #remove spaces in style sheets
-        pattern = re.compile(r"\@.*?\:")
+        pattern = re.compile(r"\@.\ ?\:")
         tagged_text = pattern.sub(lambda match: match.group(0).replace(" ", ""), tagged_text)
+
 
         #not sure why this is needed,
         tagged_text = tagged_text.replace("\r", "")
         tagged_text = tagged_text.replace(">@", "> \n@")
         tagged_text = tagged_text.replace("\<\\c\>", "\<\\c\> \\n")
         tagged_text = tagged_text.replace("\<\\b\>", "\<\\b\> \\n")
-        tagged_text = tagged_text.replace("@\ :", "@")
+        tagged_text = tagged_text.replace("@\\ :", "@")
 
 
         try:
