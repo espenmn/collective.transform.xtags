@@ -23,8 +23,13 @@ class XtagsWidget(text.TextWidget):
 
     def get_xtags(self):
         #there must be a quicker way to do this (?)
+        #remove * in tags
         pattern = re.compile(r"\<.*?\>")
-        tagged_text = pattern.sub(lambda match: match.group(0).replace('*', "") ,self.value)
+        tagged_text = pattern.sub(lambda match: match.group(0).replace('*', "") ,self.request.tagged_text)
+
+        #remove spaces in style sheets
+        pattern = re.compile(r"\@.*?\:")
+        tagged_text = pattern.sub(lambda match: match.group(0).replace(" ", "") ,self.request.tagged_text)
 
         #not sure why this is needed,
         tagged_text = tagged_text.replace("\r", "")
