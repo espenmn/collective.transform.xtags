@@ -9,7 +9,7 @@ from z3c.form import widget
 from z3c.form.browser import text
 
 from lxml.etree import tostring, fromstring
-from collective.transform.xtags.old_quark_tagged_text import to_xml
+from collective.transform.xtags.quark_tagged_text import to_xml
 #from collective.transform.xtags.interfaces import IXtagsSettings
 
 import re
@@ -24,8 +24,9 @@ class XtagsWidget(text.TextWidget):
     def get_xtags(self):
         #there must be a quicker way to do this (?)
         #remove * in tags
-        pattern = re.compile(r"\<.*?\>")
-        tagged_text = pattern.sub(lambda match: match.group(0).replace('*', ""), self.value)
+        #pattern = re.compile(r"\<.*?\>")
+        #tagged_text = pattern.sub(lambda match: match.group(0).replace('*', ""), self.value)
+        tagged_text = self.value
 
         #remove spaces in style sheets
         pattern = re.compile(r"\@.\ ?\:")
@@ -34,10 +35,13 @@ class XtagsWidget(text.TextWidget):
 
         #not sure why this is needed,
         tagged_text = tagged_text.replace("\r", "")
-        tagged_text = tagged_text.replace(">@", "> \n@")
-        tagged_text = tagged_text.replace("\<\\c\>", "\<\\c\> \\n")
-        tagged_text = tagged_text.replace("\<\\b\>", "\<\\b\> \\n")
-        tagged_text = tagged_text.replace("@\\ :", "@")
+
+        #tagged_text = tagged_text.replace(">@", "> \n@")
+        #tagged_text = tagged_text.replace("\<\\c\>", "\<\\c\> \\n")
+        #tagged_text = tagged_text.replace("\<\\b\>", "\<\\b\> \\n")
+
+        #hack, ':' in style sheets
+        tagged_text = tagged_text.replace("@\\:", "@")
 
 
         try:

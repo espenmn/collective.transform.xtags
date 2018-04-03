@@ -377,8 +377,14 @@ def fix_character_attributes(tree, keep={}):
     QUARK_CHAR_ATTRIBUTES.update(keep)
     tracker = CharacterAttributesTracker()
     for p in tree.iter('P'):
-        tracker.reset_all() # I *think* we reset all character attributes with a new paragraph.
-        tracker.update(p)
+        try:
+            tracker.reset_all() # I *think* we reset all character attributes with a new paragraph.
+        except:
+            pass
+        try:
+            tracker.update(p)
+        except:
+            pass
         log.info('p:+str: ' + str(p.text))
         log.info('  |atr: ' + str(p.attrib))
         log.info('  |trk: ' + ''.join([k for k, v in tracker.attributes.items() if v is not False]))
@@ -392,29 +398,37 @@ def fix_character_attributes(tree, keep={}):
         except KeyError:
             pass
         for t in p.iter('CharStyle'):
-            tracker.update(t)
+            try:
+                tracker.update(t)
+            except:
+                pass
             log.info('t:+str: ' + str(t.text))
             log.info('  |atr: ' + str(t.attrib))
             log.info('  |trk: ' + ''.join([k for k, v in tracker.attributes.items() if v is not False]))
-            t.attrib.clear()  # remove existing attributes before setting our own
 
-            if tracker.character_stylesheet is not None:
-                # There is a stylesheet applied. Rename the tag and set the style attribute.
-                t.tag = 'StyledText'
-                t.attrib["style"] = tracker.character_stylesheet
-            # Wrap the tag's text into a subtag for each attribute, recursively
-            sub = t
-            t_text = t.text
-            for a, v in tracker.attributes.items():
-                if v and QUARK_CHAR_ATTRIBUTES[a] != "":
-                    #print('  |atr1: ' + a+ ' '+ str(v))
-                    log.info('  |atr1: ' + a+ ' '+ str(v))
-                    sub.text = None
-                    sub = SubElement(sub, QUARK_CHAR_ATTRIBUTES[a])
-                    sub.text = t_text
-                    if v is not True:
-                        # For non-boolean attributes, set the value.
-                        sub.attrib['value'] = v
+            try:
+                t.attrib.clear()  # remove existing attributes before setting our own
+
+                if tracker.character_stylesheet is not None:
+                    # There is a stylesheet applied. Rename the tag and set the style attribute.
+                    t.tag = 'StyledText'
+                    t.attrib["style"] = tracker.character_stylesheet
+                # Wrap the tag's text into a subtag for each attribute, recursively
+                sub = t
+                t_text = t.text
+                for a, v in tracker.attributes.items():
+                    if v and QUARK_CHAR_ATTRIBUTES[a] != "":
+                        #print('  |atr1: ' + a+ ' '+ str(v))
+                        log.info('  |atr1: ' + a+ ' '+ str(v))
+                        sub.text = None
+                        sub = SubElement(sub, QUARK_CHAR_ATTRIBUTES[a])
+                        sub.text = t_text
+                        if v is not True:
+                            # For non-boolean attributes, set the value.
+                            sub.attrib['value'] = v
+            except:
+                pass
+
     # All CharStyle tags are now empty and can be deleted
     strip_tags(tree, 'CharStyle')
 
@@ -426,8 +440,14 @@ def fix_character_attributes_css(tree, keep={}):
     QUARK_CHAR_ATTRIBUTES_CSS.update(keep)
     tracker = CharacterAttributesTracker()
     for p in tree.iter('P'):
-        tracker.reset_all() # I *think* we reset all character attributes with a new paragraph.
-        tracker.update(p)
+        try:
+            tracker.reset_all() # I *think* we reset all character attributes with a new paragraph.
+        except:
+            pass
+        try:
+            tracker.update(p)
+        except:
+            pass
         log.info('p:+str: ' + str(p.text))
         log.info('  |atr: ' + str(p.attrib))
         log.info('  |trk: ' + ''.join([k for k, v in tracker.attributes.items() if v is not False]))
@@ -441,45 +461,45 @@ def fix_character_attributes_css(tree, keep={}):
         except KeyError:
             pass
         for t in p.iter('CharStyle'):
-            tracker.update(t)
+            try:
+                tracker.update(t)
+            except:
+                pass
             log.info('t:+str: ' + str(t.text))
             log.info('  |atr: ' + str(t.attrib))
             log.info('  |trk: ' + ''.join([k for k, v in tracker.attributes.items() if v is not False]))
-            t.attrib.clear()  # remove existing attributes before setting our own
 
-            if tracker.character_stylesheet is not None:
-                # There is a stylesheet applied. Rename the tag and set the style attribute.
-                t.tag = 'StyledText'
-                t.attrib["style"] = tracker.character_stylesheet
-            # Wrap the tag's text into a subtag for each attribute, recursively
-            sub = t
-            t_text = t.text
-            #print(t_text)
-            for a, v in tracker.attributes.items():
-                if v and QUARK_CHAR_ATTRIBUTES_CSS[a][0] != "":
-                    #print('  |atr1: ' + a + ' '+ str(v))
-                    log.info('  |atr1: ' + a + ' '+ str(v))
-                    sub.text = None
-                    sub = SubElement(sub, QUARK_CHAR_ATTRIBUTES_CSS[a][0])
-                    sub.text = t_text
-                    if QUARK_CHAR_ATTRIBUTES_CSS[a][1] != "":
-                        sub.attrib[QUARK_CHAR_ATTRIBUTES_CSS[a][1]] = QUARK_CHAR_ATTRIBUTES_CSS[a][2].format(str(v).strip('"'))
-                    elif v is not True:
-                        # For non-boolean attributes, set the value.
-                        sub.attrib['value'] = v
+            try:
+                t.attrib.clear()  # remove existing attributes before setting our own
+
+                if tracker.character_stylesheet is not None:
+                    # There is a stylesheet applied. Rename the tag and set the style attribute.
+                    t.tag = 'StyledText'
+                    t.attrib["style"] = tracker.character_stylesheet
+                # Wrap the tag's text into a subtag for each attribute, recursively
+                sub = t
+                t_text = t.text
+                #print(t_text)
+                for a, v in tracker.attributes.items():
+                    if v and QUARK_CHAR_ATTRIBUTES_CSS[a][0] != "":
+                        #print('  |atr1: ' + a + ' '+ str(v))
+                        log.info('  |atr1: ' + a + ' '+ str(v))
+                        sub.text = None
+                        sub = SubElement(sub, QUARK_CHAR_ATTRIBUTES_CSS[a][0])
+                        sub.text = t_text
+                        if QUARK_CHAR_ATTRIBUTES_CSS[a][1] != "":
+                            sub.attrib[QUARK_CHAR_ATTRIBUTES_CSS[a][1]] = QUARK_CHAR_ATTRIBUTES_CSS[a][2].format(str(v).strip('"'))
+                        elif v is not True:
+                            # For non-boolean attributes, set the value.
+                            sub.attrib['value'] = v
+
+            except:
+                pass
     # All CharStyle tags are now empty and can be deleted
-    strip_tags(tree, 'CharStyle')
-
-# Consider replacing the code above with the following function
-def recursive_wrap(tag, tag_list):
-    if len(tag_list) == 0:
-        return tag
-    else:
-        text = tag.text
-        tag.text = ''
-        sub = SubElement(tag, tag_list[-1])
-        sub.text = text
-        recursive_wrap(tag, tag_list[0::-2])
+    try:
+        strip_tags(tree, 'CharStyle')
+    except:
+        pass
 
 
 #####################################
@@ -491,28 +511,18 @@ def to_xml(tagged_text, extra_tags_to_keep={}, css=False):
     tree = create_tree(pparse(replace_unicode(tagged_text), Article))
     log.info('Quark tagged text parser:Tree created')
     strip_tags(tree, 'Text') # Text tags are unstyled text and can be stripped
-    propagate_class(tree)
-    if css:
-        fix_character_attributes_css(tree, extra_tags_to_keep)
-    else:
-        fix_character_attributes(tree, extra_tags_to_keep)
-    log.info('Quark tagged text parser: Done.')
-    return tree
-
-
-def old_to_xml(tagged_text, extra_tags_to_keep={}):
-    log.info('starting')
-    #tree = lxml.html.fromstring(replace_unicode(tagged_text))
-    tree =  create_tree(pparse(replace_unicode(tagged_text), Article))
-    log.info('made tree')
-
-    strip_tags(tree, 'Text') # Text tags are unstyled text and can be stripped
+    log.info('Text tags stripped')
     try:
         propagate_class(tree)
     except:
         pass
-    try:
+    if css:
+        log.info('Starting CSS fix')
+        fix_character_attributes_css(tree, extra_tags_to_keep)
+        log.info('Finished CSS fix')
+    else:
+        log.info('Starting character attributes fix')
         fix_character_attributes(tree, extra_tags_to_keep)
-    except:
-        pass
+        log.info('Finished character attributes fix')
+    log.info('Quark tagged text parser: Done.')
     return tree
