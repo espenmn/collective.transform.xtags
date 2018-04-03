@@ -41,8 +41,8 @@ from lxml.etree import strip_tags, tostring, SubElement
 import logging as log
 
 
-#import lxml.html
-#from lxml.html.clean import Cleaner
+import lxml.html
+from lxml.html.clean import Cleaner
 
 #############################
 ### PART 1: PREPROCESSING ###
@@ -68,7 +68,7 @@ QUARK_SPECIAL_CHARACTERS = {
 "@": "@", #• @: <\@>
 "<": "&lt;", #• <: <\<>
 "\\": "&#92;", #• \: <\\>
-#<\n> is bit of a pain. It should become <br/> in HTML, but we can't just to a text substition here as it will break the parser.
+#<\n> is bit of a pain. It should become <br/> in HTML, but we can't just do a text substition here as it will break the parser.
 #on the other hand, it can *often* be treated as a space.
 "n": " ", #"&#x0A;", #• New line (Soft return): <\n> (\n marks a paragraph end in xtag, so we cannot replace it directly - use HTML code instead)
 "d": "\u200B", #• Discretionary return: <\d> (?)
@@ -115,88 +115,32 @@ QUARK_CHAR_ATTRIBUTES_TYPE_STYLE = {
 "R" : "", #•  Double Strikethrough: <R>
 "K" : "", #•  All Caps: <K>
 "H" : "", #•  Small Caps: <H>
-"+" : "sup", #•  Superscript: <+>
-"-" : "sub", #•  Subscript: <-> (hyphen)
+"+" : "+", #•  Superscript: <+>
+"-" : "-", #•  Subscript: <-> (hyphen)
 "V" : "", #•  Superior: <V>
 }
 
-QUARK_CHAR_ATTRIBUTES_TYPE_STYLE_CSS = {
-"P" : ("", "", ""), #•  Plain: <P>
-"B" : ("b", "", ""), #•  Bold: <B>
-"I" : ("i", "", ""), #•  Italic: <I>
-"O" : ("", "", ""), #•  Outline: <O>
-"S" : ("", "", ""), #•  Shadow: <S>
-"U" : ("u", "", ""), #•  Underline: <U>
-"W" : ("", "", ""), #•  Word Underline: <W>
-"/" : ("span", "style", "text-decoration: line-through;"), #•  Strikethrough: </>
-"R" : ("", "", ""), #•  Double Strikethrough: <R>
-"K" : ("span", "style", "text-transform: uppercase;"), #•  All Caps: <K>
-"H" : ("span", "style", "font-variant: small-caps;"), #•  Small Caps: <H>
-"+" : ("sup", "", ""), #•  Superscript: <+>
-"-" : ("sub", "", ""), #•  Subscript: <-> (hyphen)
-"V" : ("", "", ""), #•  Superior: <V>
-}
-
 QUARK_CHAR_ATTRIBUTES_OTHERS = {
-"f" : "", #•  Change font*: <f"font name"> ~
-"z" : "", #•  Change font size*: <z###.##> in points ~
-"c" : "", #•  Change color*: <c"color name"> or <cC, cM, cY, cK, and cW>  ~
-"s" : "", #•  Change shade*: <s###.#> in percentage of shade  ~
-"h" : "", #•  Horizontal scale*: <h###.#> in percentage of scale ~
-"k" : "", #•  Kern*: <k###.##> in 1/200 em space ~
-"t" : "", #•  Track*: <t###.##> in 1/200 em space ~
-"b" : "", #•  Set baseline shift*: <b###.##> in points ~
-"y" : "", #•  Vertical scale*: <y###.#> in percentage of scale ~
-"G" : "", #•  Ligatures: <G1> to turn on, or <G0> to turn off ~
-"p" : "", #•  Opacity*: <p###.#> in percentage of opacity ~
-"o" : "", #•  OpenType: <o"xxxx")> where "xxxx" = the OpenType® feature code ~
-"n" : "", #•  Language: <n##> (see "Languages") ~
+"f" : "", #•  Change font*: <f"font name">
+"z" : "", #•  Change font size*: <z###.##> in points
+"c" : "", #•  Change color*: <c"color name"> or <cC, cM, cY, cK, and cW>
+"s" : "", #•  Change shade*: <s###.#> in percentage of shade
+"h" : "", #•  Horizontal scale*: <h###.#> in percentage of scale
+"k" : "", #•  Kern*: <k###.##> in 1/200 em space
+"t" : "", #•  Track*: <t###.##> in 1/200 em space
+"b" : "", #•  Set baseline shift*: <b###.##> in points
+"y" : "", #•  Vertical scale*: <y###.#> in percentage of scale
+"G" : "", #•  Ligatures: <G1> to turn on, or <G0> to turn off
+"p" : "", #•  Opacity*: <p###.#> in percentage of opacity
+"o" : "", #•  OpenType: <o"xxxx")> where "xxxx" = the OpenType® feature code
+"n" : "", #•  Language: <n##> (see "Languages")
 "A" : "", #•  Character alignment†: <*An>, where n indicates the type of alignment; <AT> = Em box, top/right, <AO> = ICF top/right, <AC> = center, <AM> = ICF bottom/left, <AB> = Em box,bottom/ left, <AL> = baseline†
 "L" : "", #•  Keep half width characters upright† (a character attribute used only in vertical stories):<Ln>, where <L0> = sideways, <L1> = upright, and <L$> = revert to style sheet
 "M" : "", #•  Emphasis marks†: <Mn>, where n is the emphasis mark
 "Y" : "", #•  Apply sending to non-CJK characters†: <Y1> to turn on, <Y0> to turn it off, or <Y$> to use the current style sheet setting")}
 }
 
-QUARK_CHAR_ATTRIBUTES_OTHERS_CSS = {
-"f" : ("span", "style", "font-family: '{}';"), #•  Change font*: <f"font name"> ~
-"z" : ("", "", ""), #•  Change font size*: <z###.##> in points ~
-"c" : ("", "", ""), #•  Change color*: <c"color name"> or <cC, cM, cY, cK, and cW>  ~
-"s" : ("", "", ""), #•  Change shade*: <s###.#> in percentage of shade  ~
-"h" : ("", "", ""), #•  Horizontal scale*: <h###.#> in percentage of scale ~
-"k" : ("", "", ""), #•  Kern*: <k###.##> in 1/200 em space ~
-"t" : ("", "", ""), #•  Track*: <t###.##> in 1/200 em space ~
-"b" : ("", "", ""), #•  Set baseline shift*: <b###.##> in points ~
-"y" : ("", "", ""), #•  Vertical scale*: <y###.#> in percentage of scale ~
-"G" : ("", "", ""), #•  Ligatures: <G1> to turn on, or <G0> to turn off ~
-"p" : ("", "", ""), #•  Opacity*: <p###.#> in percentage of opacity ~
-"o" : ("", "", ""), #•  OpenType: <o"xxxx")> where "xxxx" = the OpenType® feature code ~
-"n" : ("", "", ""), #•  Language: <n##> (see "Languages") ~
-"A" : ("", "", ""), #•  Character alignment†: <*An>, where n indicates the type of alignment; <AT> = Em box, top/right, <AO> = ICF top/right, <AC> = center, <AM> = ICF bottom/left, <AB> = Em box,bottom/ left, <AL> = baseline†
-"L" : ("", "", ""), #•  Keep half width characters upright† (a character attribute used only in vertical stories):<Ln>, where <L0> = sideways, <L1> = upright, and <L$> = revert to style sheet
-"M" : ("", "", ""), #•  Emphasis marks†: <Mn>, where n is the emphasis mark
-"Y" : ("", "", ""), #•  Apply sending to non-CJK characters†: <Y1> to turn on, <Y0> to turn it off, or <Y$> to use the current style sheet setting")}
-}
-
 QUARK_CHAR_ATTRIBUTES = dict(QUARK_CHAR_ATTRIBUTES_TYPE_STYLE, **QUARK_CHAR_ATTRIBUTES_OTHERS)
-QUARK_CHAR_ATTRIBUTES_CSS = dict(QUARK_CHAR_ATTRIBUTES_TYPE_STYLE_CSS, **QUARK_CHAR_ATTRIBUTES_OTHERS_CSS)
-
-def get_encoding(filename):
-    """
-    Read the first line of a tagged text file; parses the encoding tag;
-    lookup and return the corresponding Python encoding name.
-    """
-    log.info('Encoding detection: inspecting file: ' + filename)
-    try:
-        # First try UTF16 (which has a BOM). Is there a better way of detecting the BOM?
-        with open(filename, 'r', encoding='utf16') as f:
-            encoding_tag = f.readline()
-    except UnicodeError:
-        with open(filename, 'r', encoding='mac-roman') as f:
-            encoding_tag = f.readline()
-    tag_content = re.compile(r'[^<]*<v(.+)><e(.+)>').search(encoding_tag).group(2)
-    encoding = QUARK_ENCODINGS[int(tag_content)]
-    log.info('  | Detected encoding id ' + tag_content + ' -> ' + encoding)
-    return encoding
 
 # See "A GUIDE TO XPRESS TAGS 8", section "Special characters"
 # Note we have a problem with "@": we can't replace it here without breaking everything...
@@ -206,13 +150,16 @@ def get_encoding(filename):
 #In [4]: "".join(list(q.QUARK_SPECIAL_CHARACTERS))
 #Out[4]: '@<\\nd-tsepf_ahm#$^*{}jo'
 
-def replace_unicode(tagged_text):
-    """Replace Quark escaped character by their unicode codepoint."""
-    escaped_chars_regex = re.compile(r'<\\!{0,1}([@<\\nd\-tsepf_ahm#\$\^\*{}jo])>')    #'<\\!{0,1}([fhsnpea@_])>')
-    ket_regex = re.compile(r' >(\w)')
-    t = ket_regex.sub(lambda match: ' '+match.group(1), tagged_text) # hack -- apparently a solitary ">" before a word is a soft hyphen (undocumented?)
-    return escaped_chars_regex.sub(lambda match: QUARK_SPECIAL_CHARACTERS[match.group(1)], t)
+def remove_returns(tagged_text):
+    """Replace return with nothing."""
+    return tagged_text.replace("\r", "")
 
+def replace_unicode(tagged_text):
+	"""Replace Quark escaped character by their unicode codepoint."""
+	escaped_chars_regex = re.compile(r'<\\!{0,1}([@<\\nd\-tsepf_ahm#\$\^\*{}jo])>')    #'<\\!{0,1}([fhsnpea@_])>')
+	ket_regex = re.compile(r' >(\w)')
+	t = ket_regex.sub(lambda match: ' '+match.group(1), tagged_text) # hack -- apparently a solitary ">" before a word is a soft hyphen (undocumented?)
+	return escaped_chars_regex.sub(lambda match: QUARK_SPECIAL_CHARACTERS[match.group(1)], t)
 
 
 #################################
@@ -265,7 +212,6 @@ class P(List):
     grammar = (maybe_some(char_stylesheet),
                omit(maybe_some(char_attributes)), # omit() because char attrs are reset on each new para anyway.
                '\n',
-               maybe_some(" "), # For Espen: allow spaces before <*
                maybe_some(para_stylesheet),
                maybe_some(char_stylesheet),
                omit(maybe_some(para_attributes)),
@@ -288,7 +234,7 @@ XTG_NUMERIC_CHARACTER_ATTRIBUTES = 'Gshktbypnfcz'
 class BooleanCharacterAttribute(str):
     grammar = attr('name', re.compile('(a$|a\$\$|[\$PBIOSUWRKHV\+\-])')) #'((a{0,1}\${0,1,2})|[\$PBIOSUWRKHV\+\-])'  # '([\$PBIOSUWRKHV\+\-]|@\$p|o\(\$\))' Move o($) to StringCharacterAttribute
 class NumericCharacterAttribute(str):
-    grammar = attr('name', re.compile('[GshktbypnfcazY]')), attr('value', re.compile('[0-9\.\$\-]+'))
+    grammar = attr('name', re.compile('[Gshktbypnfcaz]')), attr('value', re.compile('[0-9\.\$\-]+'))
 class StringCharacterAttribute(str):
     grammar = attr('name', re.compile('[fco]')), attr('value', re.compile('(\"[a-zA-Z_\-0-9 ]+\")|([CMYKW])|\(((\${0,2})|(\"[a-zA-Z]+\",{0,1}))+\)|(\$)'))
     #                                                                             font (f)       |color (c)| OpenType (o)
@@ -312,25 +258,25 @@ class CharacterAttributesTracker:
         #self.cmap = sorted(mapping.character.items(), key = lambda p: len(p[0]), reverse=True)
 
     def reset_type_styles(self):
-        log.debug("RESET type styles")
+        log.info("RESET type styles")
         for name in "".join(list(QUARK_CHAR_ATTRIBUTES_TYPE_STYLE)):
             self.attributes[name] = False
 
     def reset_all(self):
         """Reset all attributes, e.g. upon encountering a <$> tag."""
-        log.debug("RESET all styles")
+        log.info("RESET all styles")
         for name in XTG_BOOLEAN_CHARACTER_ATTRIBUTES + XTG_NUMERIC_CHARACTER_ATTRIBUTES:
             self.attributes[name] = False
 
     def update_attribute(self, a):
-        log.debug("Updating character attribute " + a.name)
+        log.info("Updating character attribute " + a.name)
         if a.name in ('$' , '$$', 'P'):
             self.reset_type_styles()
         elif a.name in('a$', 'a$$'):
             self.reset_all()
         elif isinstance(a, BooleanCharacterAttribute):
             self.attributes[a.name] = not self.attributes[a.name]
-        elif isinstance(a, NumericCharacterAttribute) or isinstance(a, StringCharacterAttribute):
+        elif isinstance(a, NumericCharacterAttribute):
             self.attributes[a.name] = a.value if a.value is not '$' else False
         else:
             pass # placeholder for handling StringCharacterAttributes if and when required.
@@ -338,7 +284,7 @@ class CharacterAttributesTracker:
 
     def update(self, tag):
         """Update the counter from tag."""
-        log.debug(str(tag) +  str(tag.text) + str(tag.attrib))
+        log.info(str(tag) +  str(tag.text) + str(tag.attrib))
         # First process the character stylesheet, if present. <@$>, <@$p> and <@> mean 'Normal', 'Paragraph' and 'No styleseet'
         # respectively; for our purpose they are all equivalent to 'No stylesheet'.
         try:
@@ -393,14 +339,22 @@ def fix_character_attributes(tree, keep={}):
     pairs, add this dict to QUARK_CHAR_ATTRIBUTES and only attributes with an explicit mapping will be preserved."""
     log.info('Processing character attributes...')
     QUARK_CHAR_ATTRIBUTES.update(keep)
+
     tracker = CharacterAttributesTracker()
     for p in tree.iter('P'):
-        tracker.reset_all() # I *think* we reset all character attributes with a new paragraph.
-        tracker.update(p)
+        try:
+            tracker.reset_all() # I *think* we reset all character attributes with a new paragraph.
+        except:
+            pass
+        try:
+            tracker.update(p)
+        except:
+            pass
         log.info('p:+str: ' + str(p.text))
         log.info('  |atr: ' + str(p.attrib))
         log.info('  |trk: ' + ''.join([k for k, v in tracker.attributes.items() if v is not False]))
         # attributes other than 'class', if present, are no longer needed:
+
         try:
             del(p.attrib['char_attributes'])
         except KeyError:
@@ -410,83 +364,42 @@ def fix_character_attributes(tree, keep={}):
         except KeyError:
             pass
         for t in p.iter('CharStyle'):
-            tracker.update(t)
+            try:
+                tracker.update(t)
+            except:
+                pass
             log.info('t:+str: ' + str(t.text))
             log.info('  |atr: ' + str(t.attrib))
             log.info('  |trk: ' + ''.join([k for k, v in tracker.attributes.items() if v is not False]))
-            t.attrib.clear()  # remove existing attributes before setting our own
 
-            if tracker.character_stylesheet is not None:
-                # There is a stylesheet applied. Rename the tag and set the style attribute.
-                t.tag = 'StyledText'
-                t.attrib["style"] = tracker.character_stylesheet
-            # Wrap the tag's text into a subtag for each attribute, recursively
-            sub = t
-            t_text = t.text
-            for a, v in tracker.attributes.items():
-                if v and QUARK_CHAR_ATTRIBUTES[a] != "":
-                    #print('  |atr1: ' + a+ ' '+ str(v))
-                    log.info('  |atr1: ' + a+ ' '+ str(v))
-                    sub.text = None
-                    sub = SubElement(sub, QUARK_CHAR_ATTRIBUTES[a])
-                    sub.text = t_text
-                    if v is not True:
-                        # For non-boolean attributes, set the value.
-                        sub.attrib['value'] = v
+            try:
+                t.attrib.clear()  # remove existing attributes before setting our own
+
+                if tracker.character_stylesheet is not None:
+                    # There is a stylesheet applied. Rename the tag and set the style attribute.
+                    t.tag = 'StyledText'
+                    t.attrib["style"] = tracker.character_stylesheet
+                # Wrap the tag's text into a subtag for each attribute, recursively
+                sub = t
+                t_text = t.text
+                for a, v in tracker.attributes.items():
+                    if v and QUARK_CHAR_ATTRIBUTES[a] != "":
+                        #print('  |atr1: ' + a+ ' '+ str(v))
+                        log.info('  |atr1: ' + a+ ' '+ str(v))
+                        sub.text = None
+                        sub = SubElement(sub, a)
+                        sub.text = t_text
+                        if v is not True:
+                            # For non-boolean attributes, set the value.
+                            sub.attrib['value'] = v
+            except:
+                pass
+
     # All CharStyle tags are now empty and can be deleted
-    strip_tags(tree, 'CharStyle')
-
-def fix_character_attributes_css(tree, keep={}):
-    """Walk the DOM to keep track of characater attributes and replace the xtag with XML tags.
-    The "keep" argument determine which xtags to retain in the XML: if True, keep all; if a dict of {"xtags": (tag, attribute, attribute_value)}
-    pairs, add this dict to QUARK_CHAR_ATTRIBUTES and only attributes with an explicit mapping will be preserved."""
-    log.info('Processing character attributes...')
-    QUARK_CHAR_ATTRIBUTES_CSS.update(keep)
-    tracker = CharacterAttributesTracker()
-    for p in tree.iter('P'):
-        tracker.reset_all() # I *think* we reset all character attributes with a new paragraph.
-        tracker.update(p)
-        log.info('p:+str: ' + str(p.text))
-        log.info('  |atr: ' + str(p.attrib))
-        log.info('  |trk: ' + ''.join([k for k, v in tracker.attributes.items() if v is not False]))
-        # attributes other than 'class', if present, are no longer needed:
-        try:
-            del(p.attrib['char_attributes'])
-        except KeyError:
-            pass
-        try:
-            del(p.attrib['char_stylesheet'])
-        except KeyError:
-            pass
-        for t in p.iter('CharStyle'):
-            tracker.update(t)
-            log.info('t:+str: ' + str(t.text))
-            log.info('  |atr: ' + str(t.attrib))
-            log.info('  |trk: ' + ''.join([k for k, v in tracker.attributes.items() if v is not False]))
-            t.attrib.clear()  # remove existing attributes before setting our own
-
-            if tracker.character_stylesheet is not None:
-                # There is a stylesheet applied. Rename the tag and set the style attribute.
-                t.tag = 'StyledText'
-                t.attrib["style"] = tracker.character_stylesheet
-            # Wrap the tag's text into a subtag for each attribute, recursively
-            sub = t
-            t_text = t.text
-            #print(t_text)
-            for a, v in tracker.attributes.items():
-                if v and QUARK_CHAR_ATTRIBUTES_CSS[a][0] != "":
-                    #print('  |atr1: ' + a + ' '+ str(v))
-                    log.info('  |atr1: ' + a + ' '+ str(v))
-                    sub.text = None
-                    sub = SubElement(sub, QUARK_CHAR_ATTRIBUTES_CSS[a][0])
-                    sub.text = t_text
-                    if QUARK_CHAR_ATTRIBUTES_CSS[a][1] != "":
-                        sub.attrib[QUARK_CHAR_ATTRIBUTES_CSS[a][1]] = QUARK_CHAR_ATTRIBUTES_CSS[a][2].format(str(v).strip('"'))
-                    elif v is not True:
-                        # For non-boolean attributes, set the value.
-                        sub.attrib['value'] = v
-    # All CharStyle tags are now empty and can be deleted
-    strip_tags(tree, 'CharStyle')
+    try:
+        strip_tags(tree, 'CharStyle')
+    except:
+        pass
 
 # Consider replacing the code above with the following function
 def recursive_wrap(tag, tag_list):
@@ -504,26 +417,13 @@ def recursive_wrap(tag, tag_list):
 ### PART 4: PUBLIC PARSE FUNCTION ###
 #####################################
 
-def to_xml(tagged_text, extra_tags_to_keep={}, css=False):
-    log.info('Quark tagged text parser: Starting!')
-    tree = create_tree(pparse(replace_unicode(tagged_text), Article))
-    log.info('Quark tagged text parser:Tree created')
-    strip_tags(tree, 'Text') # Text tags are unstyled text and can be stripped
-    propagate_class(tree)
-    if css:
-        fix_character_attributes_css(tree, extra_tags_to_keep)
-    else:
-        fix_character_attributes(tree, extra_tags_to_keep)
-    log.info('Quark tagged text parser: Done.')
-    return tree
-
-
-def old_to_xml(tagged_text, extra_tags_to_keep={}):
+def to_xml(tagged_text, extra_tags_to_keep={}):
     log.info('starting')
     #tree = lxml.html.fromstring(replace_unicode(tagged_text))
     tree =  create_tree(pparse(replace_unicode(tagged_text), Article))
     log.info('made tree')
 
+    #strip_tags(tree, 'text') # Text tags are unstyled text and can be stripped
     strip_tags(tree, 'Text') # Text tags are unstyled text and can be stripped
     try:
         propagate_class(tree)

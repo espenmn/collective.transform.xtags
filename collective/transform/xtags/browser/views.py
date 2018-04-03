@@ -18,8 +18,8 @@ class RenderFromXtags(BrowserView):
         #tagged_text = self.request.tagged_text
 
         #remove * in tags
-        pattern = re.compile(r"\<.*?\>")
-        tagged_text = pattern.sub(lambda match: match.group(0).replace('*', "") ,self.request.tagged_text)
+        #pattern = re.compile(r"\<.*?\>")
+        #tagged_text = pattern.sub(lambda match: match.group(0).replace('*', "") ,self.request.tagged_text)
 
         #remove spaces in style sheets
         pattern = re.compile(r"\@.\ ?\:")
@@ -27,11 +27,11 @@ class RenderFromXtags(BrowserView):
 
 
         #not sure why this is needed,
-        tagged_text = tagged_text.replace("\r", "")
-        tagged_text = tagged_text.replace(">@", "> \n@")
-        tagged_text = tagged_text.replace("\<\\c\>", "\<\\c\> \\n")
-        tagged_text = tagged_text.replace("\<\\b\>", "\<\\b\> \\n")
-        tagged_text = tagged_text.replace("@\\ :", "@")
+        #tagged_text = tagged_text.replace("\r", "")
+        #tagged_text = tagged_text.replace(">@", "> \n@")
+        #tagged_text = tagged_text.replace("\<\\c\>", "\<\\c\> \\n")
+        #tagged_text = tagged_text.replace("\<\\b\>", "\<\\b\> \\n")
+        #tagged_text = tagged_text.replace("@\\ :", "@")
 
 
         try:

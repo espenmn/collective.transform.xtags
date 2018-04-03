@@ -9,7 +9,7 @@ from z3c.form import widget
 from z3c.form.browser import text
 
 from lxml.etree import tostring, fromstring
-from collective.transform.xtags.quark_tagged_text import to_xml
+from collective.transform.xtags.old_quark_tagged_text import to_xml
 #from collective.transform.xtags.interfaces import IXtagsSettings
 
 import re
