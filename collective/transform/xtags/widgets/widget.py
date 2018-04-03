@@ -38,8 +38,7 @@ class XtagsWidget(text.TextWidget):
 
 
         #not sure why this is needed,
-        #buy if not it does not close tags
-        tagged_text = tagged_text.replace("\r", "")
+        tagged_text = tagged_text.replace("\r", "", 1)
 
         tagged_text = tagged_text.replace(">@", ">\n@")
         #tagged_text = tagged_text.replace("\<\\c\>", "\<\\c\> \\n")
