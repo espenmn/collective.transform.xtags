@@ -351,7 +351,7 @@ def propagate_class(tree):
     for t in tree.iter('P'):
         try:
             # If there is a "class" already make a note of it
-            new_class =  t.attrib['class']
+            new_class =  (t.attrib['class']).replace(" ", "-")
             if new_class == '$':
                 _class = 'Normal'
                 t.attrib['class'] = _class
@@ -366,7 +366,7 @@ def propagate_class(tree):
         except KeyError:
             # If there is no "class" attribute add the last (current) one
             #if _class is not None:
-                t.attrib['class'] = _class
+                t.attrib['class'] = (_class).replace(" ", "-")
 
 
 def fix_character_attributes(tree, keep={}):

@@ -15,24 +15,23 @@ class RenderFromXtags(BrowserView):
 
     def render_xtags(self, tagged_text=""):
         """Return quark xtags as a stringified HTML document."""
-        #tagged_text = self.request.tagged_text
+        tagged_text = self.request.tagged_text
 
         #remove * in tags
         #pattern = re.compile(r"\<.*?\>")
         #tagged_text = pattern.sub(lambda match: match.group(0).replace('*', "") ,self.request.tagged_text)
-        tagged_text = self.request.tagged_text
+        #tagged_text = self.request.tagged_text
 
-        #remove spaces in style sheets
-        pattern = re.compile(r"\@.\ ?\:")
-        tagged_text = pattern.sub(lambda match: match.group(0).replace(" ", ""), tagged_text)
+        #hack, ':' in style sheets
+        tagged_text = tagged_text.replace("@\\:", "@")
 
 
         #not sure why this is needed,
-        tagged_text = tagged_text.replace("\r", "")
-        #tagged_text = tagged_text.replace(">@", "> \n@")
+        #buy if not it does not close tags
+        #tagged_text = tagged_text.replace("\r", "")
+        tagged_text = tagged_text.replace(">@", "> \n@")
         #tagged_text = tagged_text.replace("\<\\c\>", "\<\\c\> \\n")
         #tagged_text = tagged_text.replace("\<\\b\>", "\<\\b\> \\n")
-        tagged_text = tagged_text.replace("@\\:", "@")
 
 
         try:
