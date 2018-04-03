@@ -511,18 +511,13 @@ def to_xml(tagged_text, extra_tags_to_keep={}, css=False):
     tree = create_tree(pparse(replace_unicode(tagged_text), Article))
     log.info('Quark tagged text parser:Tree created')
     strip_tags(tree, 'Text') # Text tags are unstyled text and can be stripped
-    log.info('Text tags stripped')
     try:
         propagate_class(tree)
     except:
         pass
     if css:
-        log.info('Starting CSS fix')
         fix_character_attributes_css(tree, extra_tags_to_keep)
-        log.info('Finished CSS fix')
     else:
-        log.info('Starting character attributes fix')
         fix_character_attributes(tree, extra_tags_to_keep)
-        log.info('Finished character attributes fix')
     log.info('Quark tagged text parser: Done.')
     return tree
