@@ -180,24 +180,6 @@ QUARK_CHAR_ATTRIBUTES_OTHERS_CSS = {
 QUARK_CHAR_ATTRIBUTES = dict(QUARK_CHAR_ATTRIBUTES_TYPE_STYLE, **QUARK_CHAR_ATTRIBUTES_OTHERS)
 QUARK_CHAR_ATTRIBUTES_CSS = dict(QUARK_CHAR_ATTRIBUTES_TYPE_STYLE_CSS, **QUARK_CHAR_ATTRIBUTES_OTHERS_CSS)
 
-def get_encoding(filename):
-    """
-    Read the first line of a tagged text file; parses the encoding tag;
-    lookup and return the corresponding Python encoding name.
-    """
-    log.info('Encoding detection: inspecting file: ' + filename)
-    try:
-        # First try UTF16 (which has a BOM). Is there a better way of detecting the BOM?
-        with open(filename, 'r', encoding='utf16') as f:
-            encoding_tag = f.readline()
-    except UnicodeError:
-        with open(filename, 'r', encoding='mac-roman') as f:
-            encoding_tag = f.readline()
-    tag_content = re.compile(r'[^<]*<v(.+)><e(.+)>').search(encoding_tag).group(2)
-    encoding = QUARK_ENCODINGS[int(tag_content)]
-    log.info('  | Detected encoding id ' + tag_content + ' -> ' + encoding)
-    return encoding
-
 # See "A GUIDE TO XPRESS TAGS 8", section "Special characters"
 # Note we have a problem with "@": we can't replace it here without breaking everything...
 #unicode_lookup = {"f": "\u202F", "_": "\u2014", "a": "\u2013", "h": "\u00AD", 's': ' ', 'n': ' ', 'p': ' ', 'e': ' ', '@': ' at '}#"\u0040"}
