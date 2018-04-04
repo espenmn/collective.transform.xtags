@@ -41,11 +41,11 @@ class XtagsWidget(text.TextWidget):
         tagged_text = tagged_text.replace("\r", "", 1)
 
         tagged_text = tagged_text.replace(">@", ">\n@")
-        tagged_text = tagged_text.replace("\<\\c\>", "\<\\c\> \\n")
-        tagged_text = tagged_text.replace("\<\\b\>", "\<\\b\> \\n")
+        #tagged_text = tagged_text.replace("\<\\c\>", "\<\\c\> \\n")
+        #tagged_text = tagged_text.replace("\<\\b\>", "\<\\b\> \\n")
 
         try:
-            element_tree = to_xml(tagged_text)
+            element_tree = to_xml(tagged_text, extra_tags_to_keep={}, css=True)
             serialised_xml = tostring(element_tree, encoding='utf-8')
             return serialised_xml
 

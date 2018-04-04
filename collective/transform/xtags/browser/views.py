@@ -35,7 +35,7 @@ class RenderFromXtags(BrowserView):
 
 
         try:
-            element_tree = to_xml(tagged_text.decode('utf-8'))
+            element_tree = to_xml(tagged_text.decode('utf-8'), extra_tags_to_keep={}, css=True)
             serialised_xml = tostring(element_tree, encoding='utf-8')
             return serialised_xml
 
