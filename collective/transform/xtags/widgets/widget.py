@@ -41,6 +41,7 @@ class XtagsWidget(text.TextWidget):
         tagged_text = tagged_text.replace("\r", "", 1)
 
         tagged_text = tagged_text.replace(">@", ">\n@")
+        tagged_text = tagged_text.replace("><*", ">\n<*")
         #tagged_text = tagged_text.replace("\<\\c\>", "\<\\c\> \\n")
         #tagged_text = tagged_text.replace("\<\\b\>", "\<\\b\> \\n")
 
