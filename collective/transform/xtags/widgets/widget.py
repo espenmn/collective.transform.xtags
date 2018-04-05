@@ -23,28 +23,11 @@ class XtagsWidget(text.TextWidget):
 
     def get_xtags(self):
         tagged_text = self.value
-        #there must be a quicker way to do this (?)
-        #remove * in tags
-        #pattern = re.compile(r"\<.*?\>")
-        #tagged_text = pattern.sub(lambda match: match.group(0).replace('*', ""), tagged_text)
-
-        #hack, ':' in style sheets
-        tagged_text = tagged_text.replace("@\\:", "@")
-
-        #remove spaces in style sheets
-        #this is now done in quark_tagged_text.py
-        #pattern = re.compile(r"\@.\ ?\:")
-        #tagged_text = pattern.sub(lambda match: match.group(0).replace(" ", ""), tagged_text)
-
-
-        #not sure why this is needed,
         tagged_text = tagged_text.replace("\r", "", 1)
-
+        tagged_text = tagged_text.replace("@\\:", "@")
         tagged_text = tagged_text.replace(">@", ">\n@")
         tagged_text = tagged_text.replace("><*", ">\n<*")
         tagged_text = tagged_text.replace("\\: ", "")
-        #tagged_text = tagged_text.replace("\<\\c\>", "\<\\c\> \\n")
-        #tagged_text = tagged_text.replace("\<\\b\>", "\<\\b\> \\n")
 
         try:
             element_tree = to_xml(tagged_text, extra_tags_to_keep={}, css=True)
