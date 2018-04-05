@@ -26,7 +26,8 @@
 <link rel="stylesheet" href="++resource++collective.transform.xtags/xtags.css" />
 <script>
 $( "#mdpreview" ).click(function() {
-    $("#xtags_field").unmark();
+      $("#savetags").hide();
+      $("#xtags_field").unmark();
       var xtg = $('#xtags_field').text() ;
       $('#xtags-holder').html( xtg )
       $("#xtags_field").markRegExp(/<([^>]*)>/);
@@ -35,6 +36,7 @@ $( "#mdpreview" ).click(function() {
       var md = $('#xtags-holder').val();
   $.post("render_from_xtags", { tagged_text: md}, function( data ) {
     $( "#result" ).html( data );
+    $("#savetags").show();
   });
 });
 $( "#previewv" ).click(function() {
