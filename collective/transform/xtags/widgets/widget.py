@@ -22,6 +22,7 @@ class XtagsWidget(text.TextWidget):
     """Xtags Widget"""
 
     def get_xtags(self):
+        import pdb; pdb.set_trace()
         try:
             element_tree = to_xml(tagged_text, extra_tags_to_keep={}, css=True)
             serialised_xml = tostring(element_tree, encoding='utf-8')

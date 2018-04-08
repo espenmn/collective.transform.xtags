@@ -6,6 +6,10 @@ from zope.component import adapter
 from zope.interface import implementer
 import transaction
 
+from plone import api
+
+
+
 @adapter(IFolderish)
 @implementer(IDXFileFactory)
 class XTagsFileFactory(DXFileFactory):
@@ -13,14 +17,22 @@ class XTagsFileFactory(DXFileFactory):
     def __call__(self, name, content_type, data):
         
         custom_obj = self.create_custom_stuff(name, content_type, data)
-        if custom_obj:
-            return custom_obj
             
         return super(XTagsFileFactory, self).__call__(name, content_type, data)
 
     def create_custom_stuff(self, name, content_type, data):
         import pdb; pdb.set_trace()
         if name.endswith("xtg"):
-            # do you own stuff here like wrap each file in a folder
-            return super(XTagsFileFactory, self).__call__(name, content_type, qrktext=data.read())
+            # do your own stuff here like wrap each file in a folder
+            objekt = api.content.create(
+                type='quarktags',
+                title=name,
+                container=self.context,
+                qrktext = data.read()
+            )
+
+    	    api.content.transition(obj=objekt, transition='publish')
         return
+        
+
+      
