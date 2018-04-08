@@ -4,7 +4,6 @@
     xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="collective.transform.xtags">
 
-     <adapter for="collective.transform.xtags.behavior.IXtagsBehavior"
-     factory=".factories.XTagsFileFactory" />
+     <adapter factory=".factories.XTagsFileFactory" />
      
 </configure>
