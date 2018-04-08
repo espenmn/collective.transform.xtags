@@ -22,6 +22,7 @@ class IXtagsBehavior(form.Schema):
 
     dexteritytextindexer.searchable('qrktext')
 
+    
     qrktext = schema.Text(
     	title=u"Quark Xpress Tags text",
     	description=u"Note: Preview is updated when hitting enter. You need to Click on preview before saving.",

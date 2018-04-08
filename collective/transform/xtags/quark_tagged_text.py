@@ -507,6 +507,12 @@ def fix_character_attributes_css(tree, keep={}):
 #####################################
 
 def to_xml(tagged_text, extra_tags_to_keep={}, css=False):
+    tagged_text = tagged_text.replace("\r", "", 1)
+    tagged_text = tagged_text.replace("@\\:", "@")
+    tagged_text = tagged_text.replace("\\: ", "") 
+    tagged_text = tagged_text.replace(">@", ">\n@")
+    tagged_text = tagged_text.replace("><*", ">\n<*")
+        
     log.info('Quark tagged text parser: Starting!')
     tree = create_tree(pparse(replace_unicode(tagged_text), Article))
     log.info('Quark tagged text parser:Tree created')

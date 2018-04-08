@@ -10,6 +10,7 @@
    <include package=".widgets" />
    <include package=".browser" />
    <include file="behaviors.zcml" />
+   <include file="overrides.zcml" />
 
   <!-- Register a resource directory from which we can deploy static resource files. -->
   <browser:resourceDirectory
@@ -45,4 +46,5 @@
         description="Various import steps for collective.transform.xtags uninstall"
         handler="collective.transform.xtags.setuphandlers.importVariousUninstall">
     </genericsetup:importStep-->
+    
 </configure>
