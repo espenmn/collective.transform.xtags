@@ -12,7 +12,13 @@ from lxml.etree import tostring, fromstring
 from collective.transform.xtags.quark_tagged_text import to_xml
 #from collective.transform.xtags.interfaces import IXtagsSettings
 
-import re
+#from plone.memoize import forever
+from plone.memoize.view import memoize, memoize_contextless
+
+
+import logging as log
+
+#import re
 
 class IXtagsWidget(interfaces.IWidget):
     """Xtags widget."""
@@ -20,11 +26,12 @@ class IXtagsWidget(interfaces.IWidget):
 
 class XtagsWidget(text.TextWidget):
     """Xtags Widget"""
-
+    
+    #@forever.memoize
+    @memoize
     def get_xtags(self):
         tagged_text = self.value
-        
-        #tagged_text = tagged_text.replace("\r", "\n")
+        log.info('getting xtags!')
         try:
             element_tree = to_xml(tagged_text, extra_tags_to_keep={}, css=True)
             serialised_xml = tostring(element_tree, encoding='utf-8')
@@ -34,7 +41,6 @@ class XtagsWidget(text.TextWidget):
             return '<p class="error">[rendering error]<p>'
 
     zope.interface.implementsOnly(IXtagsWidget)
-
 
 def XtagsFieldWidget(field, request):
     """IFieldWidget factory for XtagsWidget."""

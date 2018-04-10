@@ -5,7 +5,7 @@ from Products.Five.browser import BrowserView
 from lxml.etree import tostring
 from collective.transform.xtags.quark_tagged_text import to_xml
 
-import re
+#import re
 
 class RenderFromXtags(BrowserView):
     """ quark xtags to html.    """
@@ -20,13 +20,6 @@ class RenderFromXtags(BrowserView):
         #remove * in tags
         #pattern = re.compile(r"\<.*?\>")
         #tagged_text = pattern.sub(lambda match: match.group(0).replace('*', "") ,self.request.tagged_text)
-        #tagged_text = self.request.tagged_text
-        #not sure why this is needed,
-        #buy if not it does not close tags
-        #tagged_text = tagged_text.replace("\r", "")
-        #tagged_text = tagged_text.replace("\r", "", 1)
-        #tagged_text = tagged_text.replace("\<\\c\>", "\<\\c\> \\n")
-        #tagged_text = tagged_text.replace("\<\\b\>", "\<\\b\> \\n")
        
         try:
             element_tree = to_xml(tagged_text.decode('utf-8'), extra_tags_to_keep={}, css=True)
