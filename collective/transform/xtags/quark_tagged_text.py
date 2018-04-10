@@ -507,7 +507,7 @@ def fix_character_attributes_css(tree, keep={}):
 #####################################
 
 def to_xml(tagged_text, extra_tags_to_keep={}, css=False):
-    #tagged_text = tagged_text.replace("\r", "", 1)
+    tagged_text = tagged_text.replace("\r", "\n")
     tagged_text = tagged_text.replace("@\\:", "@")
     tagged_text = tagged_text.replace("\\: ", "") 
     tagged_text = tagged_text.replace(">@", ">\n@")
