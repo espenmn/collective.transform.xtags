@@ -25,7 +25,8 @@ class XtagsWidget(text.TextWidget):
         tagged_text = self.value
         tagged_text = tagged_text.replace("\r", "\n")
         try:
-            element_tree = to_xml(tagged_text, extra_tags_to_keep={}, css=True)
+            #element_tree = to_xml(tagged_text, extra_tags_to_keep={}, css=True)
+            element_tree = to_xml(tagged_text.decode('utf-8'), extra_tags_to_keep={}, css=True)
             serialised_xml = tostring(element_tree, encoding='utf-8')
             return serialised_xml
 
