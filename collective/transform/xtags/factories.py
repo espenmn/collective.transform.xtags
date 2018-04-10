@@ -33,14 +33,15 @@ class XTagsFileFactory(DXFileFactory):
 
         #newid = chooser.chooseName(name, self.context.aq_parent)
         if name.endswith("xtg"):
+            qrktext=(data.read()).replace("\xef\xbb\xbf", "", 1)
             obj = api.content.create(
                     self.context,
                     type_,
-                    qrktext=data.read(),
+                    qrktext=qrktext,
                     title = name,
             )
             
-            qrktext=data.read(),
+            #qrktext=data.read(),
             obj.reindexObject()
             return obj
             
