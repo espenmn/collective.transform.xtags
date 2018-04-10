@@ -23,6 +23,7 @@ class XtagsWidget(text.TextWidget):
 
     def get_xtags(self):
         tagged_text = self.value
+        import pdb; pdb.set_trace()
         tagged_text = tagged_text.replace("\r", "\n", 1)
         tagged_text = tagged_text.replace("\r", "")
         try:
