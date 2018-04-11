@@ -7,7 +7,7 @@ from zope.interface import implementer
 import transaction
 
 from plone import api
-
+import chardet
 
 @adapter(IFolderish)
 @implementer(IDXFileFactory)
@@ -26,16 +26,9 @@ class XTagsFileFactory(DXFileFactory):
             type_ = 'quarktags'
             name = name.decode('utf8')
             qrktext = data.read()
-            try:
-                if qrktext.startswith("\xef\xbb\xbf"):
-                    import pdb; pdb.set_trace()
-                    qrktext = qrktext.decode("utf-8-sig").encode("utf-8")
-                if qrktext.startswith("\xfe\xff\x00"):
-                    qrktext = qrktext.decode("utf16").encode("utf-8")
-            finally:
-                pass
+            the_encoding = chardet.detect(qrktext)['encoding']
+            qrktext = qrktext.decode(the_encoding).encode("utf-8")
                 
-            #qrktext=qrktext.replace("\xef\xbb\xbf", "", 1)
             obj = api.content.create(
                     self.context,
                     type_,
