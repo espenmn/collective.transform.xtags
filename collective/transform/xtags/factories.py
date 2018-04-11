@@ -22,10 +22,20 @@ class XTagsFileFactory(DXFileFactory):
         return super(XTagsFileFactory, self).__call__(name, content_type, data)
 
     def create_custom_stuff(self, name, content_type, data):
-        type_ = 'quarktags'
-        name = name.decode('utf8')
         if name.endswith("xtg"):
-            qrktext=(data.read()).replace("\xef\xbb\xbf", "", 1)
+            type_ = 'quarktags'
+            name = name.decode('utf8')
+            qrktext = data.read()
+            try:
+                if qrktext.startswith("\xef\xbb\xbf"):
+                    import pdb; pdb.set_trace()
+                    qrktext = qrktext.decode("utf-8-sig").encode("utf-8")
+                if qrktext.startswith("\xfe\xff\x00"):
+                    qrktext = qrktext.decode("utf16").encode("utf-8")
+            finally:
+                pass
+                
+            #qrktext=qrktext.replace("\xef\xbb\xbf", "", 1)
             obj = api.content.create(
                     self.context,
                     type_,
