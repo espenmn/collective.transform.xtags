@@ -22,7 +22,7 @@ class IXtagsBehavior(form.Schema):
 
     dexteritytextindexer.searchable('qrktext')
 
-    
+
     qrktext = schema.Text(
     	title=u"Quark Xpress Tags text",
     	description=u"Note: Preview is updated when hitting enter. Use utf-8 if mass uploading",

@@ -14,4 +14,11 @@
       class=".views.RenderFromXtags"
       />
 
+      <browser:page
+        for="collective.transform.xtags.behavior.IXtagsBehavior"
+        name="download_xtags"
+        permission="zope2.View"
+        class=".views.XTagsExporter"
+        />
+
 </configure>
