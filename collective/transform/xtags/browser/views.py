@@ -54,7 +54,7 @@ class XTagsExporter(BrowserView):
         file_name = self.context.getId()
 
         if not file_name.endswith('.xtg'):
-            file_name = filename + '.xtg'
+            file_name = file_name + '.xtg'
 
         #xtags = self.context.qrktext.getRaw(obj)
         tags = self.context.qrktext
