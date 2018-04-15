@@ -32,6 +32,18 @@
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 
+    <subscriber
+        for=".behavior.IXtagsBehavior
+        zope.lifecycleevent.interfaces.IObjectAddedEvent"
+        handler=".events.make_html"
+        />
+        
+    <subscriber
+        for=".behavior.IXtagsBehavior
+        zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+        handler=".events.make_html"
+        />
+        
     <!--genericsetup:importStep
         name="collective.transform.xtags-various"
         title="Xtags transform various"
