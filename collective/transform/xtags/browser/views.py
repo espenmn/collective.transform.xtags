@@ -35,6 +35,17 @@ class RenderFromXtags(BrowserView):
 class QrkTagsView(BrowserView):
     """ Quark Tags view template"""
     
+    @property
+    def render_html(self):
+        context = self.context
+        try:
+            html = context.rendered_html or None
+            if html:
+                return html
+        except:
+            context.rendered_html = self.get_xtags()
+            return context.rendered_html
+    
     def get_xtags(self):
         context = self.context
         tagged_text = context.qrktext 

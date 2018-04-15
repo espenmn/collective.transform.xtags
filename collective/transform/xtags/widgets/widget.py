@@ -13,7 +13,7 @@ from collective.transform.xtags.quark_tagged_text import to_xml
 #from collective.transform.xtags.interfaces import IXtagsSettings
 
 #from plone.memoize import forever
-from plone.memoize.view import memoize, memoize_contextless
+#from plone.memoize.view import memoize, memoize_contextless
 
 
 import logging as log
@@ -27,8 +27,14 @@ class IXtagsWidget(interfaces.IWidget):
 class XtagsWidget(text.TextWidget):
     """Xtags Widget"""
     
-    #@forever.memoize
-    @memoize
+    def render_html(self):
+        context = self.context
+        if context.rendered_html:
+            return context.rendered_html
+        
+        context.rendered_html = get_xtags()
+        return context.rendered_html
+            
     def get_xtags(self):
         tagged_text = self.value
         log.info('getting xtags!')

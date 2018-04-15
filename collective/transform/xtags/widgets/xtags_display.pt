@@ -2,6 +2,6 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       tal:omit-tag="">
  <body>
-  <div tal:replace="structure context/rendered_html"/>
+  <div tal:replace="structure view/render_html"/>
 </body>
  </html>
