@@ -8,6 +8,15 @@ from tempfile import TemporaryFile
 
 #from plone.memoize.view import memoize
 
+def get_xtags(tagged_text):
+    import pdb; pdb.set_trace()
+    try:
+        element_tree = to_xml(tagged_text, extra_tags_to_keep={}, css=True)
+        serialised_xml = tostring(element_tree, encoding='utf-8')
+        return serialised_xml
+
+    except:
+        return '<p class="error">[rendering error]<p>'
 
 class RenderFromXtags(BrowserView):
     """ quark xtags to html.    """
@@ -35,27 +44,14 @@ class RenderFromXtags(BrowserView):
 class QrkTagsView(BrowserView):
     """ Quark Tags view template"""
     
-    @property
     def render_html(self):
         context = self.context
         try:
-            html = context.rendered_html or None
-            if html:
-                return html
-        except:
-            context.rendered_html = self.get_xtags()
             return context.rendered_html
-    
-    def get_xtags(self):
-        context = self.context
-        tagged_text = context.qrktext 
-        try:
-            element_tree = to_xml(tagged_text, extra_tags_to_keep={}, css=True)
-            serialised_xml = tostring(element_tree, encoding='utf-8')
-            return serialised_xml
-
         except:
-            return '<p class="error">[rendering error]<p>'    
+            tagged_text = context.qrktext
+            context.rendered_html = get_xtags(tagged_text.decode('utf-8'))
+            return context.rendered_html   
         
 class XTagsExporter(BrowserView):
 

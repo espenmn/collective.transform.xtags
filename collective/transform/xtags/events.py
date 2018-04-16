@@ -18,7 +18,8 @@ def make_html(self, context):
         self.rendered_html = serialised_xml
 
     except:
-        self.rendered_html = '<p class="error">[rendering error]<p>'  
+        pass
+        #self.rendered_html = '<p class="error">[rendering error]<p>'  
         
     self.reindexObject()  
         

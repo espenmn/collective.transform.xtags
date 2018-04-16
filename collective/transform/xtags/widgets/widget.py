@@ -7,18 +7,21 @@ import zope.schema.interfaces
 from z3c.form import interfaces
 from z3c.form import widget
 from z3c.form.browser import text
-
 from lxml.etree import tostring, fromstring
 from collective.transform.xtags.quark_tagged_text import to_xml
 #from collective.transform.xtags.interfaces import IXtagsSettings
 
-#from plone.memoize import forever
-#from plone.memoize.view import memoize, memoize_contextless
-
-
 import logging as log
 
-#import re
+def get_xtags(tagged_text):
+    log.info('getting xtags!')
+    try:
+        element_tree = to_xml(tagged_text, extra_tags_to_keep={}, css=True)
+        serialised_xml = tostring(element_tree, encoding='utf-8')
+        return serialised_xml
+
+    except:
+        return '<p class="error">[rendering error]<p>'
 
 class IXtagsWidget(interfaces.IWidget):
     """Xtags widget."""
@@ -29,23 +32,14 @@ class XtagsWidget(text.TextWidget):
     
     def render_html(self):
         context = self.context
-        if context.rendered_html:
-            return context.rendered_html
         
-        context.rendered_html = get_xtags()
-        return context.rendered_html
-            
-    def get_xtags(self):
-        tagged_text = self.value
-        log.info('getting xtags!')
         try:
-            element_tree = to_xml(tagged_text, extra_tags_to_keep={}, css=True)
-            serialised_xml = tostring(element_tree, encoding='utf-8')
-            return serialised_xml
-
+            return context.rendered_html
         except:
-            return '<p class="error">[rendering error]<p>'
-
+            tagged_text = self.value
+            context.rendered_html = get_xtags(tagged_text)
+            return context.rendered_html
+            
     zope.interface.implementsOnly(IXtagsWidget)
 
 def XtagsFieldWidget(field, request):
