@@ -9,7 +9,6 @@ from tempfile import TemporaryFile
 #from plone.memoize.view import memoize
 
 def get_xtags(tagged_text):
-    import pdb; pdb.set_trace()
     try:
         element_tree = to_xml(tagged_text, extra_tags_to_keep={}, css=True)
         serialised_xml = tostring(element_tree, encoding='utf-8')
