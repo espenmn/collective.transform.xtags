@@ -23,21 +23,13 @@ class RenderFromXtags(BrowserView):
     def __call__(self, *args, **kw):
         return self.render_xtags()
 
-    def render_xtags(self, tagged_text=""):
+    def render_xtags(self):
         """Return quark xtags as a stringified HTML document."""
         tagged_text = self.request.tagged_text
-
         #remove * in tags
         #pattern = re.compile(r"\<.*?\>")
         #tagged_text = pattern.sub(lambda match: match.group(0).replace('*', "") ,self.request.tagged_text)
-
-        try:
-            element_tree = to_xml(tagged_text.decode('utf-8'), extra_tags_to_keep={}, css=True)
-            serialised_xml = tostring(element_tree, encoding='utf-8')
-            return serialised_xml
-
-        except:
-            return '<p class="error">[rendering error]<p>'
+        return get_xtags(tagged_text.decode('utf-8'))
 
 
 class QrkTagsView(BrowserView):
