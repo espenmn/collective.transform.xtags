@@ -294,18 +294,18 @@ class CharacterAttributesTracker:
         #self.cmap = sorted(mapping.character.items(), key = lambda p: len(p[0]), reverse=True)
 
     def reset_type_styles(self):
-        log.debug("RESET type styles")
+        #log.debug("RESET type styles")
         for name in "".join(list(QUARK_CHAR_ATTRIBUTES_TYPE_STYLE)):
             self.attributes[name] = False
 
     def reset_all(self):
         """Reset all attributes, e.g. upon encountering a <$> tag."""
-        log.debug("RESET all styles")
+        #log.debug("RESET all styles")
         for name in XTG_BOOLEAN_CHARACTER_ATTRIBUTES + XTG_NUMERIC_CHARACTER_ATTRIBUTES:
             self.attributes[name] = False
 
     def update_attribute(self, a):
-        log.debug("Updating character attribute " + a.name)
+        #log.debug("Updating character attribute " + a.name)
         if a.name in ('$' , '$$', 'P'):
             self.reset_type_styles()
         elif a.name in('a$', 'a$$'):
@@ -320,7 +320,7 @@ class CharacterAttributesTracker:
 
     def update(self, tag):
         """Update the counter from tag."""
-        log.debug(str(tag) +  str(tag.text) + str(tag.attrib))
+        #log.debug(str(tag) +  str(tag.text) + str(tag.attrib))
         # First process the character stylesheet, if present. <@$>, <@$p> and <@> mean 'Normal', 'Paragraph' and 'No styleseet'
         # respectively; for our purpose they are all equivalent to 'No stylesheet'.
         try:
@@ -373,7 +373,7 @@ def fix_character_attributes(tree, keep={}):
     """Walk the DOM to keep track of characater attributes and replace the xtag with XML tags.
     The "keep" argument determine which xtags to retain in the XML: if True, keep all; if a dict of {"xtags": xmltag}
     pairs, add this dict to QUARK_CHAR_ATTRIBUTES and only attributes with an explicit mapping will be preserved."""
-    log.info('Processing character attributes...')
+    #log.info('Processing character attributes...')
     QUARK_CHAR_ATTRIBUTES.update(keep)
     tracker = CharacterAttributesTracker()
     for p in tree.iter('P'):
@@ -385,9 +385,9 @@ def fix_character_attributes(tree, keep={}):
             tracker.update(p)
         except:
             pass
-        log.info('p:+str: ' + str(p.text))
-        log.info('  |atr: ' + str(p.attrib))
-        log.info('  |trk: ' + ''.join([k for k, v in tracker.attributes.items() if v is not False]))
+        #log.info('p:+str: ' + str(p.text))
+        #log.info('  |atr: ' + str(p.attrib))
+        #log.info('  |trk: ' + ''.join([k for k, v in tracker.attributes.items() if v is not False]))
         # attributes other than 'class', if present, are no longer needed:
         try:
             del(p.attrib['char_attributes'])
@@ -402,9 +402,9 @@ def fix_character_attributes(tree, keep={}):
                 tracker.update(t)
             except:
                 pass
-            log.info('t:+str: ' + str(t.text))
-            log.info('  |atr: ' + str(t.attrib))
-            log.info('  |trk: ' + ''.join([k for k, v in tracker.attributes.items() if v is not False]))
+            #log.info('t:+str: ' + str(t.text))
+            #log.info('  |atr: ' + str(t.attrib))
+            #log.info('  |trk: ' + ''.join([k for k, v in tracker.attributes.items() if v is not False]))
 
             try:
                 t.attrib.clear()  # remove existing attributes before setting our own
@@ -419,7 +419,7 @@ def fix_character_attributes(tree, keep={}):
                 for a, v in tracker.attributes.items():
                     if v and QUARK_CHAR_ATTRIBUTES[a] != "":
                         #print('  |atr1: ' + a+ ' '+ str(v))
-                        log.info('  |atr1: ' + a+ ' '+ str(v))
+                        #log.info('  |atr1: ' + a+ ' '+ str(v))
                         sub.text = None
                         sub = SubElement(sub, QUARK_CHAR_ATTRIBUTES[a])
                         sub.text = t_text
@@ -436,7 +436,7 @@ def fix_character_attributes_css(tree, keep={}):
     """Walk the DOM to keep track of characater attributes and replace the xtag with XML tags.
     The "keep" argument determine which xtags to retain in the XML: if True, keep all; if a dict of {"xtags": (tag, attribute, attribute_value)}
     pairs, add this dict to QUARK_CHAR_ATTRIBUTES and only attributes with an explicit mapping will be preserved."""
-    log.info('Processing character attributes...')
+    #log.info('Processing character attributes...')
     QUARK_CHAR_ATTRIBUTES_CSS.update(keep)
     tracker = CharacterAttributesTracker()
     for p in tree.iter('P'):
@@ -448,9 +448,9 @@ def fix_character_attributes_css(tree, keep={}):
             tracker.update(p)
         except:
             pass
-        log.info('p:+str: ' + str(p.text))
-        log.info('  |atr: ' + str(p.attrib))
-        log.info('  |trk: ' + ''.join([k for k, v in tracker.attributes.items() if v is not False]))
+        #log.info('p:+str: ' + str(p.text))
+        #log.info('  |atr: ' + str(p.attrib))
+        #log.info('  |trk: ' + ''.join([k for k, v in tracker.attributes.items() if v is not False]))
         # attributes other than 'class', if present, are no longer needed:
         try:
             del(p.attrib['char_attributes'])
@@ -465,9 +465,9 @@ def fix_character_attributes_css(tree, keep={}):
                 tracker.update(t)
             except:
                 pass
-            log.info('t:+str: ' + str(t.text))
-            log.info('  |atr: ' + str(t.attrib))
-            log.info('  |trk: ' + ''.join([k for k, v in tracker.attributes.items() if v is not False]))
+            #log.info('t:+str: ' + str(t.text))
+            #log.info('  |atr: ' + str(t.attrib))
+            #log.info('  |trk: ' + ''.join([k for k, v in tracker.attributes.items() if v is not False]))
 
             try:
                 t.attrib.clear()  # remove existing attributes before setting our own
@@ -483,7 +483,7 @@ def fix_character_attributes_css(tree, keep={}):
                 for a, v in tracker.attributes.items():
                     if v and QUARK_CHAR_ATTRIBUTES_CSS[a][0] != "":
                         #print('  |atr1: ' + a + ' '+ str(v))
-                        log.info('  |atr1: ' + a + ' '+ str(v))
+                        #log.info('  |atr1: ' + a + ' '+ str(v))
                         sub.text = None
                         sub = SubElement(sub, QUARK_CHAR_ATTRIBUTES_CSS[a][0])
                         sub.text = t_text
@@ -514,9 +514,9 @@ def to_xml(tagged_text, extra_tags_to_keep={}, css=False):
     tagged_text = tagged_text.replace(">@", ">\n@")
     tagged_text = tagged_text.replace("><*", ">\n<*")
         
-    log.info('Quark tagged text parser: Starting!')
+    #log.info('Quark tagged text parser: Starting!')
     tree = create_tree(pparse(replace_unicode(tagged_text), Article))
-    log.info('Quark tagged text parser:Tree created')
+    #log.info('Quark tagged text parser:Tree created')
     strip_tags(tree, 'Text') # Text tags are unstyled text and can be stripped
     try:
         propagate_class(tree)
@@ -526,5 +526,5 @@ def to_xml(tagged_text, extra_tags_to_keep={}, css=False):
         fix_character_attributes_css(tree, extra_tags_to_keep)
     else:
         fix_character_attributes(tree, extra_tags_to_keep)
-    log.info('Quark tagged text parser: Done.')
+    #log.info('Quark tagged text parser: Done.')
     return tree
