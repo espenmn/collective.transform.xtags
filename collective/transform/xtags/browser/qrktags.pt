@@ -8,12 +8,86 @@
 
 <head>
 </head>
- 
+
 <body>
 
 <metal:main fill-slot="content-core">
   <metal:content-core define-macro="content-core">
+   <div id="slider">
+    	<tal:repeat tal:repeat="item  context/@@contentlisting">
+    			          <div  class="fillme" tal:define="item_url item/getURL|item/absolute_url;
+    							        image_url python:item_url + '/@@images/image'">
+    			 						  <img class="slider-img img-responsive"  alt="" src="${image_url}"/>
+    				            <div class="slidetext-container">
+    				              <div class="slidetext  wow bounceInUp animated">
+    								    		<h1  tal:define="tittel item/title|None;
+                                  endswith python: tittel.lower().endswith('jpg') or tittel.lower().endswith('png')"
+                                  tal:condition="not: endswith">${tittel}</h1>
+    												<tal:condition
+    														tal:condition="exists: item/description">
+    														<h3>${item/description}<h3>
+    													</tal:condition>
+    											 </div>
+    			              </div>
+    			          </div>
+    		</tal:repeat>
+    </div>
+
     <div tal:replace="structure view/render_html"/>
+
+
+    <link rel="stylesheet" href="++theme++multitheme/css/responsiveslides2.css">
+      <style>
+        /* @override http://localhost:8080/Plone4/++theme++multitheme/css/responsiveslides2.css */
+
+.rslides_tabs  {
+	list-style-image: none;
+	list-style-type: none;
+	margin: 0;
+	padding: 4px;
+	margin:auto;
+	text-align: center;
+
+	display: block;}
+
+.rslides_tabs  li {
+	border: 1px solid silver;
+	background: #FDFDFD;
+	border-radius: 100%;
+	padding:  3px;;
+	width:   1.9em;
+	height: 1.9em;
+	margin:  1em 0.3em 2em;;
+	display: inline-block;
+}
+
+#content .rslides_tabs  a {
+	border-bottom: 0  none;
+  color: #777
+}
+
+#content .rslides_here,
+#content .rslides_here a {
+	background: black;
+  color: white;
+}
+     </style>
+
+
+    <script src="++theme++multitheme/javascript/responsiveslides.min.js"></script>
+    <script>
+     $(function () {
+      $("#slider").responsiveSlides({
+        speed: 1000,
+      	pager: true,
+      });
+     });
+     $(window).resize(function(){
+       // Setting the heigth of the slides
+       $('#slider').height($('#slider').width()*65  /100);
+     }).resize();
+    </script>
+
   </metal:content-core>
 </metal:main>
 </body>

@@ -11,10 +11,13 @@
  <property name="immediate_view">view</property>
  <property name="global_allow">True</property>
  <property name="filter_content_types">True</property>
- <property name="allowed_content_types"/>
+ <property name="allowed_content_types">
+  <element value="Image"/>
+ </property>
  <property name="allow_discussion">False</property>
- <property name="default_view">view</property>
+ <property name="default_view">qrktags_view</property>
  <property name="view_methods">
+  <element value="qrktags_view"/>
   <element value="view"/>
  </property>
  <property name="default_view_fallback">False</property>
@@ -26,10 +29,10 @@
   <element value="collective.transform.xtags.behavior.IXtagsBehavior"/>
  </property>
  <property name="schema"></property>
- <property name="model_source">
-  &lt;model xmlns="http://namespaces.plone.org/supermodel/schema"&gt;
-      &lt;schema&gt;
-      &lt;/schema&gt;
+ <property
+    name="model_source">&lt;model xmlns="http://namespaces.plone.org/supermodel/schema"&gt;
+  &lt;schema&gt;
+  &lt;/schema&gt;
   &lt;/model&gt;</property>
  <property name="model_file"></property>
  <property name="schema_policy">dexterity</property>
