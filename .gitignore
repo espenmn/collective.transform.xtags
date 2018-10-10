@@ -4,3 +4,8 @@ Quark_Xpress_Tags_to_xml-1.0-py3-none-any/Quark_Xpress_Tags_to_xml-1.0.dist-info
 
 collective.transform.xtags.egg-info
 collective.transform.xtags.egg-info/*
+build/lib/collective/__init__.py
+build
+*.whl
+
+*.gz

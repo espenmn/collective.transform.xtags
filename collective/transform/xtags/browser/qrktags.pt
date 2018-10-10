@@ -14,7 +14,7 @@
 <metal:main fill-slot="content-core">
   <metal:content-core define-macro="content-core">
    <div id="slider">
-    	<tal:repeat tal:repeat="item  context/@@contentlisting">
+    	<tal:repeat tal:repeat="item  context/@@contentlisting" tal:condition="context/@@contentlisting">
     			          <div  class="fillme" tal:define="item_url item/getURL|item/absolute_url;
     							        image_url python:item_url + '/@@images/image'">
     			 						  <img class="slider-img img-responsive"  alt="" src="${image_url}"/>
