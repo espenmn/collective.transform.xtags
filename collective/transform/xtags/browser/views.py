@@ -23,6 +23,9 @@ class RenderFromXtags(BrowserView):
     def __call__(self, *args, **kw):
         return self.render_xtags()
 
+    def item_count(self):
+        return self.context.items()
+
     def render_xtags(self):
         """Return quark xtags as a stringified HTML document."""
         tagged_text = self.request.tagged_text
@@ -34,7 +37,7 @@ class RenderFromXtags(BrowserView):
 
 class QrkTagsView(BrowserView):
     """ Quark Tags view template"""
-    
+
     def render_html(self):
         context = self.context
         try:
@@ -42,8 +45,8 @@ class QrkTagsView(BrowserView):
         except:
             tagged_text = context.qrktext
             context.rendered_html = get_xtags(tagged_text.decode('utf-8'))
-            return context.rendered_html   
-        
+            return context.rendered_html
+
 class XTagsExporter(BrowserView):
 
     def __init__(self, context, request):

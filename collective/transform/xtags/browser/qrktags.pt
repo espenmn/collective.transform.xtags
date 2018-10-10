@@ -13,6 +13,7 @@
 
 <metal:main fill-slot="content-core">
   <metal:content-core define-macro="content-core">
+    ${view/item_count}
    <div id="slider">
     	<tal:repeat tal:repeat="item  context/@@contentlisting" tal:condition="context/@@contentlisting">
     			          <div  class="fillme" tal:define="item_url item/getURL|item/absolute_url;
