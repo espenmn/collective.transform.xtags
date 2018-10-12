@@ -27,6 +27,9 @@
   <element value="plone.app.dexterity.behaviors.metadata.IDublinCore"/>
   <element value="plone.app.content.interfaces.INameFromTitle"/>
   <element value="collective.transform.xtags.behavior.IXtagsBehavior"/>
+  <element value="plone.app.versioningbehavior.behaviors.IVersionable"/>
+  <element value="plone.app.dexterity.behaviors.id.IShortName"/>
+  <element value="plone.app.lockingbehavior.behaviors.ILocking"/>
  </property>
  <property name="schema"></property>
  <property
